@@ -1,0 +1,9 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label">{$_icesRender['title']}</label>
+    <div class="form-group">
+        <!--头部，相册选择和格式选择-->
+        <script id="ices{$_icesRender['name']}" name="{$_icesRender['name']}" style="height: 300px;"
+                data-plugin="ueditor"
+                type="text/plain">{:htmlspecialchars_decode($_icesRender['value'])}</script>
+    </div>
+</div>

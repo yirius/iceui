@@ -1,0 +1,214 @@
+<style>
+    .pagination li .icon{
+        height: 22px;
+        line-height: 22px;
+    }
+    .page-data-tables td.details-control:before {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        line-height: 14px;
+        color: #fff;
+        text-align: center;
+        content: "+";
+        background-color: #62a8ea;
+        border: 2px solid #fff;
+        border-radius: 16px;
+    }
+    .dataTables_length,.dt-dom-toolbar,.hidden-xs{
+        display: inline;
+    }
+    table.dataTable tbody tr.selected{
+        background-color: #E7F7F9;
+    }
+</style>
+<div class="page animation-fade page-full">
+    {include file="$_icesAsidePath" /}
+    <div class="page-main">
+        <div class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">{$_icesPanel['title']|default=''}</h1>
+                <div class="page-header-actions">
+                    {$_icesPanel['header']|default=''}
+                </div>
+            </div>
+            <div class="panel">
+                {if !empty($_icesFormInputs) }
+                    {include file="form/include" /}
+                {/if}
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover dataTable table-striped width-full text-nowrap page-data-tables" id="icesdataTable">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        /** 这个是点击详情之后的显示 **/
+        function format(d){
+            {:htmlspecialchars_decode($_icesTableColumnsDetail)}
+        }
+
+        /** 每一列显示的参数 需要把function转换出来**/
+        var columns = {:json_encode($_icesTableColumns)};
+        for(var column in columns){
+            if(typeof columns[column]['render'] != "undefined"){
+                columns[column]['render'] = eval("(function(){return function(data, type, objects, setting){"+columns[column]['render']+"} })()");
+            }
+        }
+
+        /** 初始化dt **/
+        var icesTableSelected = [];
+        var table = $('#icesdataTable').DataTable($.po('dataTable', {
+            "serverSide": true,
+            'responsive': true,
+            'dom': '<"row"<"col-xs-6"<"dt-dom-toolbar"><"hidden-xs"l>><"col-xs-6"f<"pull-right"B>>>' + '<"row"<"col-xs-12"tr>>' + '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            'language': {
+                'sSearchPlaceholder': '快速查找',
+                'lengthMenu': '每页显示 _MENU_ 条',
+                'search': '_INPUT_',
+                'info': '第 _START_ 至 _END_ 项，共 _TOTAL_ 项',
+                'infoEmpty': '共 0 项',
+                'emptyTable': '无数据',
+                'zeroRecords': '抱歉，没有找到符合条件的记录',
+                'sInfoFiltered': '(从 _MAX_ 条记录中查找)',
+                'loadingRecords': '加载中，请稍后…',
+                'processing': '正在处理，请稍后…',
+                'paginate': {
+                    'first': '第一页',
+                    'last': '最后一页',
+                    'previous': '<i class="icon wb-chevron-left-mini"></i>',
+                    'next': '<i\x20class=\x22icon\x20wb-chevron-right-mini\x22></i>'
+                },
+                'aria': {
+                    'sortAscending': '升序排列',
+                    'sortDescending': '降序排列'
+                }
+            },
+            buttons: {
+                dom: {
+                    container: {
+                        className: 'btn-group btn-group-sm'
+                    },
+                    button: {
+                        className: 'btn btn-default btn-outline'
+                    }
+                },
+                buttons: [
+                    {
+                        text: '<i class="icon wb-refresh"></i>',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text:'导出 Excel'
+                    }
+                ]
+            },
+            "ajax": {
+                "url": "",
+                "type": "POST",
+                "data": function(data){
+                    var orderColumn = data.columns[data.order[0].column];
+                    return {
+                        sort: orderColumn.data,
+                        order: data.order[0].dir,
+                        start: data.start,
+                        length: data.length,
+                        search: data.search.value
+                    };
+                }
+            },
+            "columns": columns,
+//            "rowCallback": function (row, data) {
+//                console.log(row);
+//                if ($.inArray(data.id, icesTableSelected) !== -1) {
+//                    $(row).addClass('selected');
+//                }
+//            }
+        }));
+
+        var lastIdx = null;
+        $('#icesdataTable tbody').on('click', 'button', function () {
+            var data = table.row($(this).parents('tr')).data();
+            console.log(data);
+            window.parent.toastr.info(data.name + " 的年薪是：" + data.salary);
+        }).on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) {
+                // 本行已展开
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // 展开本行
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        }).on('mouseover', 'td', function () {
+            if(!table.cell(this).index())
+                return;
+            var colIdx = table.cell(this).index().column || null;
+            if (colIdx !== lastIdx) {
+                $(table.cells().nodes()).removeClass('highlight');
+                $(table.column(colIdx).nodes()).addClass('highlight');
+            }
+        }).on('mouseleave', function () {
+            $(table.cells().nodes()).removeClass('highlight');
+        });
+
+        $(".dt-dom-toolbar").html('{:htmlspecialchars_decode($_icesTableBtn)}');
+
+        $('#icesdataTable tbody').on('click', 'tr', function () {
+            var id = table.row(this).data().id;
+            var index = $.inArray(id, icesTableSelected);
+
+            if (index === -1) {
+                icesTableSelected.push(id);
+            } else {
+                icesTableSelected.splice(index, 1);
+            }
+            $(this).toggleClass('selected');
+            if(icesTableSelected.length == 0){
+                $("#icesdataTableDelete").attr("disabled", "disabled");
+            }else{
+                $("#icesdataTableDelete").removeAttr("disabled");
+            }
+        });
+
+        $("#icesdataTableDelete").click(function(){
+            if(!$(this).attr("disabled")){
+                layer.confirm('是否确认删除已选择的'+icesTableSelected.length+'行？', {
+                    btn: ['取消','确认'] //按钮
+                }, function(){
+                    layer.msg('您已经取消删除操作', {icon: 1});
+                }, function(){
+                    $.ajax({
+                        url: "",
+                        method: "delete",
+                        data: {ids: icesTableSelected.join(",")},
+                        success: function(data){
+                            if(data.code == 1){
+                                toastr.success(data.msg);
+                                $("#icesdataTableDelete").attr("disabled", "disabled");
+                                table.ajax.reload();
+                            }else{
+                                toastr.error(data.msg);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        App.run();
+    });
+</script>

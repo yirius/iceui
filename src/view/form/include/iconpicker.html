@@ -1,0 +1,7 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label" for="ices{$_icesRender['name']}">{$_icesRender['title']}</label>
+    <div class="input-group iconpicker-container">
+        <input data-plugin="iconpicker" data-placement="bottomRight" name="{$_icesRender['name']}" id="ices{$_icesRender['name']}" class="form-control icp icp-auto iconpicker-element iconpicker-input" value="{$_icesRender['value']}" placeholder="{$_icesRender['config']['placeholder']}" type="text" {if $_icesRender['config']['readonly']}readonly="readonly"{/if}>
+        <span class="input-group-addon"><i class="icon {$_icesRender['value']}"></i></span>
+    </div>
+</div>

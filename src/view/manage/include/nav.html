@@ -1,0 +1,100 @@
+<nav class="site-navbar navbar navbar-default navbar-fixed-top {$icesTheme['acrossFlag']|default=''} {$icesTheme['navigationColor']|default=''}" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided" data-toggle="menubar">
+            <span class="sr-only">切换菜单</span> <span class="hamburger-bar"></span>
+        </button>
+        <button type="button" class="navbar-toggle collapsed" data-target="#admui-navbarCollapse" data-toggle="collapse">
+            <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+        </button>
+        <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+            <img class="navbar-brand-logo visible-lg visible-xs navbar-logo" src="__ASSETS__/images/logo.svg" title="ICESUI">
+            <img class="navbar-brand-logo hidden-xs hidden-lg navbar-logo-mini" src="__ASSETS__/images/logo.svg" title="ICESUI">
+        </div>
+    </div>
+    <div class="navbar-container container-fluid">
+        <div class="collapse navbar-collapse navbar-collapse-toolbar" id="admui-navbarCollapse">
+            <ul class="nav navbar-toolbar navbar-left">
+                <li class="hidden-float">
+                    <a data-toggle="menubar" class="hidden-float" href="javascript:;" role="button" id="admui-toggleMenubar">
+                        <i class="icon hamburger hamburger-arrow-left" style="margin-top: 5px">
+                            <span class="sr-only">切换目录</span>
+                            <span class="hamburger-bar"></span>
+                        </i>
+                    </a>
+                </li>
+                <li class="navbar-menu nav-tabs-horizontal nav-tabs-animate is-load" id="admui-navbar">
+                    <ul class="nav navbar-toolbar nav-tabs" role="tablist">
+                        {php}$has_one_top = false;{/php}
+                        {foreach name="adminTopLists" key="adminTopLists_i" item="adminTopLists_Val"}
+                        <li role="presentation" {if !$has_one_top}class="active"{/if}>
+                            <a data-toggle="tab"
+                               href="#icesnavTabsItem-{$adminTopLists_Val['name']}"
+                               aria-controls="icesnavTabsItem-{adminTopLists_i}"
+                               role="tab" aria-expanded="false">
+                                <i class="icon {$adminTopLists_Val['icon']}"></i>
+                                <span>{$adminTopLists_Val['text']}</span>
+                            </a>
+                        </li>
+                        {php}$has_one_top = true;{/php}
+                        {/foreach}
+                        <li class="dropdown" id="admui-navbarSubMenu">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" data-animation="slide-bottom" aria-expanded="true" role="button">
+                                <i class="icon wb-more-vertical" style="margin-top: 5px"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="no-menu" role="presentation">
+                                    <a href="/sitemap" target="_blank" data-iframe role="menuitem">
+                                        <i class="icon wb-list-numbered"></i><span>网站地图</span>
+                                    </a>
+                                </li>
+                                <li class="no-menu" role="presentation">
+                                    <a href="/system/menu" target="_blank" data-iframe role="menuitem">
+                                        <i class="icon wb-wrench"></i><span>菜单管理</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                <li class="dropdown" id="admui-navbarMessage">
+                    <a data-toggle="dropdown" href="javascript:;" class="msg-btn" aria-expanded="false" data-animation="scale-up" role="button">
+                        <i class="icon wb-bell" aria-hidden="true" style="height: 22px;line-height: 22px"></i>
+                        <span class="badge badge-danger up msg-num"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+                        <li class="dropdown-menu-header" role="presentation">
+                            <h5>最新消息</h5>
+                            <span class="label label-round label-danger"></span>
+                        </li>
+                        <li class="list-group" role="presentation">
+                            <div class="navbar-message-content" id="admui-messageContent" data-height="220px" data-plugin="slimScroll"></div>
+                        </li>
+                        <li class="dropdown-menu-footer" role="presentation">
+                            <a href="/system/account#message" data-iframe target="_blank">
+                                <i class="icon fa-navicon"></i> 所有消息
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="hidden-xs" id="admui-navbarDisplay" data-toggle="tooltip" data-placement="bottom" title="设置主题与布局等">
+                    <a class="icon wb-layout" href="/icesui/theme" data-iframe target="_blank">
+                        <span class="sr-only">主题与布局</span>
+                    </a>
+                </li>
+                <li class="hidden-xs" id="admui-navbarFullscreen" data-toggle="tooltip" data-placement="bottom" title="全屏">
+                    <a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+                        <span class="sr-only">全屏</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="icon fa-sign-out" id="admui-signOut" data-ctx="" href="{$_icesConfig['manage']['out']}" role="button">
+                        <span class="sr-only">退出</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

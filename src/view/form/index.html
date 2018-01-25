@@ -1,0 +1,51 @@
+<div class="page animation-fade page-full">
+    {include file="pub/aside" /}
+    <div class="page-main">
+        <div class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">{$_icesPanel['title']|default=''}</h1>
+                <div class="page-header-actions">
+                    {$_icesPanel['header']|default=''}
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <form autocomplete="off" id="icesForm">
+                        {include file="form/include" /}
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button type="button" id="formSubmit" class="btn btn-primary">提交</button>
+                                <button type="reset" class="btn btn-default btn-outline">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        App.run();
+        $("#formSubmit").on("click", function(){
+            $.ajax({
+                url: "{$_icesPostUrl}",
+                method: "POST",
+                dataType: "json",
+                data: $("#icesForm").serializeArray(),
+                success: function(data){
+                    if(typeof data['code'] == "undefined"){
+                        toastr.error("服务器出现错误");
+                        return;
+                    }
+                    if(data.code == 1){
+                        toastr.success(data.msg);
+                    }else{
+                        toastr.error(data.msg);
+                    }
+                    $("#icesForm").trigger("onSubmitEnd", data);
+                }
+            });
+        });
+    });
+</script>

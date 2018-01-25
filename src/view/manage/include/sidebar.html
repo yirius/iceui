@@ -1,0 +1,45 @@
+<nav class="site-menubar {$icesTheme['menuTheme']|default='site-menubar-light'}" id="admui-siteMenubar">
+    <div class="site-menubar-body">
+        <div class="tab-content height-full" id="admui-navTabs">
+            {php}$first_side = true;{/php}
+            {foreach name="adminSideLists" key="adminSlideLists_i" item="adminSlideLists_Val"}
+            <div class="tab-pane animation-fade height-full {if $first_side}active{/if}" id="icesnavTabsItem-{$adminSlideLists_i}" role="tabpanel">
+                <div>
+                    <ul class="site-menu">
+                        <li class="site-menu-category">{$adminSlideLists_Val['text']}</li>
+                        {foreach name="adminSlideLists_Val['subs']" key="subMenu_i" item="subMenu_Val"}
+                        <li class="site-menu-item {if !empty($subMenu_Val['subs'])}has-sub{/if}">
+                            <a {if !empty($subMenu_Val['subs'])}href="javascript:;"{else}href="{$subMenu_Val['url']}" target="_blank" data-iframe{/if} >
+                            <i class="site-menu-icon {$subMenu_Val['icon']}" aria-hidden="true"></i>
+                            <span class="site-menu-title">{$subMenu_Val['text']}</span>
+                            {if !empty($subMenu_Val['subs'])}<span class="site-menu-arrow"></span>{/if}
+                            </a>
+                            <ul class="site-menu-sub">
+                                {foreach name="subMenu_Val['subs']" key="thridMenu_i" item="thirdMenu_Val"}
+                                <li class="site-menu-item {if !empty($thirdMenu_Val['subs'])}has-sub{/if}">
+                                    <a {if !empty($thirdMenu_Val['subs'])}href="javascript:;"{else}href="{$thirdMenu_Val['url']}" target="_blank" data-iframe{/if}>
+                                    <span class="site-menu-title">{$thirdMenu_Val['text']}</span>
+                                    {if !empty($thirdMenu_Val['subs'])}<span class="site-menu-arrow"></span>{/if}
+                                    </a>
+                                    <ul class="site-menu-sub">
+                                        {foreach name="thirdMenu_Val['subs']" key="forthMenu_i" item="forthMenu_Val"}
+                                        <li class="site-menu-item ">
+                                            <a href="{$forthMenu_Val['url']}" data-iframe target="_blank">
+                                                <span class="site-menu-title">{$forthMenu_Val['text']}</span>
+                                            </a>
+                                        </li>
+                                        {/foreach}
+                                    </ul>
+                                </li>
+                                {/foreach}
+                            </ul>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+            {php}$first_side = false;{/php}
+            {/foreach}
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,53 @@
+{foreach name="_icesFormInputs" key="_icesFormInputs_i" item="_icesRender"}
+    {switch name="_icesRender.type"}
+
+        {case value="text"} {// text, 带动画效果的 }
+            {include file="form/include/text" type='' /}
+        {/case}
+
+        {case value="select"} {// select, 带动画效果的 }
+            {include file="form/include/select" type='' /}
+        {/case}
+
+        {case value="checkbox"} {// checkbox, 带动画效果的 }
+            {include file="form/include/checkbox" type='' /}
+        {/case}
+
+        {case value="radio"} {// radio, 带动画效果的 }
+            {include file="form/include/radio" type='' /}
+        {/case}
+
+        {case value="time"} {// time, 带动画效果的 }
+            {include file="form/include/time" type='' /}
+        {/case}
+
+        {case value="timerange"} {// timerange, 带动画效果的 }
+            {include file="form/include/timerange" type='' /}
+        {/case}
+
+        {case value="date"} {// date, 带动画效果的 }
+            {include file="form/include/date" type='' /}
+        {/case}
+
+        {case value="daterange"} {// date, 带动画效果的 }
+            {include file="form/include/daterange" type='' /}
+        {/case}
+
+        {case value="iconpicker"} {// date, 带动画效果的 }
+            {include file="form/include/iconpicker" type='' /}
+        {/case}
+
+        {case value="summernote"} {// date, 带动画效果的 }
+            {include file="form/include/summernote" type='' /}
+        {/case}
+
+        {case value="webuploader"} {// webuploader, 带动画效果的 }
+            {include file="form/include/webuploader" type='' /}
+        {/case}
+
+        {case value="ueditor"} {// ueditor, 带动画效果的 }
+            {include file="form/include/ueditor" type='' /}
+        {/case}
+
+    {/switch}
+{/foreach}

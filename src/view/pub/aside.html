@@ -1,0 +1,29 @@
+{if !empty($_icesAside)}
+<div class="page-aside">
+    <div class="page-aside-switch">
+        <i class="icon wb-chevron-left"></i>
+        <i class="icon wb-chevron-right"></i>
+    </div>
+    <div class="slimScrollDiv">
+        <div class="page-aside-inner height-full" data-plugin="slimScroll">
+            <section class="page-aside-section">
+                <h5 class="page-aside-title">{$_icesPanel['title']|default=''}</h5>
+                <div class="list-group">
+                    {foreach name="_icesAside" key="_icesTableAside_i" item="_icesTableAside_val"}
+                        <a
+                            class="list-group-item {if $_icesTableAside_val['active']}active{/if}"
+                            {if $_icesTableAside_val['iframe']}
+                                data-iframe  target="_blank" href="{$_icesTableAside_val['href']}"
+                            {else /}
+                                {$_icesTableAside_val['href']}
+                            {/if}
+                        >
+                            {:htmlspecialchars_decode($_icesTableAside_val['text'])}
+                        </a>
+                    {/foreach}
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{/if}

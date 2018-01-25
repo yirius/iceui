@@ -1,0 +1,13 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label">{$_icesRender['title']}</label>
+    <ul class="list-unstyled list-inline">
+        {foreach name="_icesRender['config']['options']" key="options_i" item="options_val"}
+            <li>
+                <div class="radio-custom radio-primary">
+                    <input type="radio" id="ices{$_icesRender['name']}{$options_i}" name="ices{$_icesRender['name']}"  {if !empty($options_val['disabled'])}disabled='disabled'{/if} value="{$options_val['value']}" {if $options_val['value'] eq $_icesRender['value']}checked{/if}>
+                    <label for="ices{$_icesRender['name']}{$options_i}">{$options_val['text']}</label>
+                </div>
+            </li>
+        {/foreach}
+    </ul>
+</div>

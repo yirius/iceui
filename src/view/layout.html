@@ -1,0 +1,66 @@
+<!DOCTYPE>
+<html class="no-js css-menubar" lang="zh-cn">
+<head>
+    <title>主页</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <!-- 样式 -->
+    <link rel="stylesheet" href="__ASSETS__/css/bootstrap.css" />
+    <link rel="stylesheet" href="__ASSETS__/css/skins/{$icesTheme['themeColor']|default='primary'}/{$icespageShowCss|default='site'}.css" id="admui-siteStyle">
+
+    <!-- 图标 CSS-->
+    <link rel="stylesheet" href="__ASSETS__/fonts/font-awesome.css">
+    <link rel="stylesheet" href="__ASSETS__/fonts/web-icons/web-icons.css">
+
+    {foreach name='_icesConfig["links"]["style"]' key="style_i" item="style_val"}
+        <link rel="stylesheet" href="{$style_val}" />
+    {/foreach}
+
+    <!-- 插件 -->
+    <script src="__ASSETS__/vendor/jquery/jquery.min.js"></script>
+    <script src="__ASSETS__/js/bootstrap.min.js"></script>
+    <script src="__ASSETS__/vendor/jquery/jquery.slimscroll.min.js"></script>
+
+    {foreach name='_icesConfig["links"]["prescript"]' key="prescript_i" item="prescript_val"}
+        <script src="{$prescript_val}"></script>
+    {/foreach}
+
+    <style>
+        html,body{
+            height: 100%;
+        }
+        .radio-custom, .checkbox-custom{
+            margin: 0;
+        }
+        .form-group ol,ul{
+            margin: 0;
+        }
+        .site-contabs-open .site-page{
+            height: calc(100% - 40px);
+        }
+        .site-contabs-open .site-page .page-frame{
+            height: calc(100vh - 100px);
+        }
+        .page-content{
+            padding: 20px 20px 40px 20px;
+        }
+        /*.height-full{*/
+            /*height: calc(100% - 5px) !important;*/
+        /*}*/
+    </style>
+    <script>
+        var icesConfig = {
+            statics: "__ASSETS__"
+        };
+    </script>
+</head>
+<body class="{$icesTheme['menuDisplay']|default='site-menubar-unfold'} {$icesTheme['menuTxtIcon']|default='site-menubar-fold-alt'} {$icesTheme['tabFlag']|default=''}">
+{__CONTENT__}
+</body>
+{foreach name='_icesConfig["links"]["script"]' key="script_i" item="script_val"}
+<script src="{$script_val}"></script>
+{/foreach}
+</html>

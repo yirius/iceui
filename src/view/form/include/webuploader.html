@@ -1,0 +1,25 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label">{$_icesRender['title']}</label>
+    <div class="form-group">
+        <!--头部，相册选择和格式选择-->
+        <div class="webuploader" data-plugin="webuploader">
+            <input type="hidden" name="{$_icesRender['name']}" value="{$_icesRender['value']}" />
+            <div class="queueList">
+                <div class="placeholder dndArea">
+                    <div class="filePicker"></div>
+                    <p>或将照片拖到这里，单次最多可选300张</p>
+                </div>
+                <ul class="filelist"></ul>
+            </div>
+            <div class="statusBar" style="display:none;">
+                <div class="progress">
+                    <span class="text">0%</span>
+                    <span class="percentage"></span>
+                </div><div class="info"></div>
+                <div class="btns">
+                    <div class="filePicker2"></div><div class="uploadBtn">开始上传</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

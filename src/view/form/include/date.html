@@ -1,0 +1,9 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label">{$_icesRender['title']}</label>
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="icon wb-calendar" aria-hidden="true"></i>
+        </span>
+        <input type="text" class="form-control" value="{$_icesRender['value']}" name="{$_icesRender['name']}" id="ices{$_icesRender['name']}" data-plugin="datepicker" data-language="zh-CN" data-format="yyyy-mm-dd" {if $_icesRender['config']['readonly']}readonly="readonly"{/if}>
+    </div>
+</div>

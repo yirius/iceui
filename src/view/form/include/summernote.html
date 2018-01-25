@@ -1,0 +1,6 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label" for="ices{$_icesRender['name']}">{$_icesRender['title']}</label>
+    <div id="ices{$_icesRender['name']}" data-plugin="summernote" data-lang="zh-CN" name="{$_icesRender['name']}" {if $_icesRender['config']['readonly']}readonly="readonly"{/if}>
+    {$_icesRender['value']}
+    </div>
+</div>

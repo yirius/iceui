@@ -1,0 +1,15 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label">{$_icesRender['title']}</label>
+    <div class="input-daterange">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icon wb-calendar" aria-hidden="true"></i>
+            </span>
+            <input type="text" class="form-control" value="{$_icesRender['value'][0]['value']}" name="{$_icesRender['name']}start" id="ices{$_icesRender['name']}start" {if $_icesRender['config']['readonly']}readonly="readonly"{/if} data-plugin='clockpicker'>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"> 至 </span>
+            <input type="text" class="form-control" value="{$_icesRender['value'][1]['value']}" name="{$_icesRender['name']}end" id="ices{$_icesRender['name']}end" {if $_icesRender['config']['readonly']}readonly="readonly"{/if} data-plugin='clockpicker'>
+        </div>
+    </div>
+</div>
