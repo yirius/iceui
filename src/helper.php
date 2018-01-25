@@ -28,11 +28,9 @@ Route::group('icesui', function () {
     Route::post('doLogin', "\\icesui\\Builder\\ManageBuilder@doLogin");
     Route::get('logout', "\\icesui\\Builder\\ManageBuilder@logout");
     //后台角色等的设置
-    Route::group("setting", function(){
-        Route::rule('group', '\\icesui\\controller\\setting@group');
-        Route::rule('groupadd', '\\icesui\\controller\\setting@groupadd');
-        Route::rule('menu', '\\icesui\\controller\\setting@menu');
-    });
+    Route::any('setting/group', '\\icesui\\controller\\Setting@group');
+    Route::any('setting/groupadd', '\\icesui\\controller\\Setting@groupadd');
+    Route::any('setting/menu', '\\icesui\\controller\\Setting@menu');
 });
 
 //加入console

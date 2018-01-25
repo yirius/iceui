@@ -1,0 +1,371 @@
+<div class="page bg-white animation-fade page-menu height-full">
+    <div class="page-aside height-full">
+        <div class="page-aside-switch">
+            <i class="icon wb-chevron-left" aria-hidden="true"></i>
+            <i class="icon wb-chevron-right" aria-hidden="true"></i>
+        </div>
+        <div class="page-aside-inner height-full" data-plugin="slimScroll">
+            <div class="page-aside-section">
+                <h5 class="page-aside-title">顶部菜单</h5>
+                <div class="list-group has-actions top-menu" id="topMenus">
+                    {php}$topCount = 0;{/php}
+                    {foreach name="topMenu" key="topMenu_i" item="topMenu_val"}
+                    <div class="list-group-item {if $topCount==0}active{/if}" data-id="{$topMenu_val.value}" data-text="{$topMenu_val.text}" data-icon="{|$value.icon}}" data-status="{$topMenu_val.status}" data-type="{$topMenu_val.type}" data-name="{$topMenu_val.name}">
+                        <!--data-children="{|$value.children | json_str}}"-->
+                        <div class="list-content">
+                            <i class="icon topmenu-icon {$topMenu_val.icon|default=''}"></i>
+                            <span class="top_menuname">
+                                {$topMenu_val.text}
+                            </span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu">
+                                    <i class="icon wb-edit" aria-hidden="true"></i>
+                                </span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete">
+                                    <i class="icon wb-close" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {php}$topCount++;{/php}
+                    {/foreach}
+                </div>
+            </div>
+            <div class="page-aside-section hidden-xs">
+                <a class="list-group-item" href="#" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu" id="addMenuToggle">
+                    <i class="icon wb-plus" aria-hidden="true"></i>
+                    添加新菜单
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page-main has-submenu nav-submenu height-full">
+        <div class="no-submenu vertical-align-middle text-center hidden">
+            <div class="page-content vertical-align-middle">
+                <p>【 <i class="icon topmenu-icon"></i> <span class="nav-menu-name"></span> 】菜单下还没有子菜单</p>
+                <p>
+                    <button type="button" class="btn btn-round btn-success btn-outline btn-default add-submenu">
+                        添加菜单
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <div class="page-content height-full">
+            <div class="row height-full">
+                <div class="col-md-7 height-full">
+                    <nav class="height-full" data-plugin="slimScroll">
+                        <div class="dd menu-tree" data-plugin="nestable" id="menuTree" data-max-depth="4">
+
+                        </div>
+                    </nav>
+                    <script id="ddContent" type="text/html">
+                        <span class="menu-name">{|if icon}}<i class="menu-icon {|icon}}"></i>{|/if}} {|text}}</span>
+                        <span class="pull-right fa-angle-right"></span>
+                    </script>
+                </div>
+                <div class="col-md-5 hidden-xs hidden-sm height-full">
+                    <nav class="height-full" data-plugin="slimScroll">
+                        <div class="menu-info" id="menuInfo">
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="btn-actions text-right">
+                <div class="btn-group dropup" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" id="addChlidMenu" data-toggle="dropdown" aria-expanded="false">
+                        新增菜单 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu animate" aria-labelledby="addChlidMenu" id="addChlidMenuBtn" role="menu">
+                        <li class="add-submenu after" role="presentation">
+                            <a data-type="after" role="menuitem">当前菜单之后</a>
+                        </li>
+                        <li class="add-submenu append" role="presentation">
+                            <a data-type="append" role="menuitem">当前菜单的里面</a>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-success" id="saveChlidMenuOrder">
+                    保存排序
+                </button>
+                <button type="button" class="btn btn-success" id="saveChlidMenu">
+                    保存菜单
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addMenu" aria-hidden="true" aria-labelledby="addMenu" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-center">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<script id="menuTpl" type="text/template">
+    <ol class="dd-list animation-fade">
+        {?subs.forEach(function($value,$index,$array){ ?}
+        <li class="dd-item dd-item-alt" data-id="{?=$value.value?}" data-text="{?=$value.text?}" data-name="{?=$value.url?}" data-icon="{?=$value.icon?}" data-type="{?=$value.type?}" data-status="{?=$value.status?}">
+            <div class="dd-handle"></div>
+            <div class="dd-content">
+                    <span class="menu-name">
+                        {?if($value.icon){ ?}
+                        <i class="menu-icon {?=$value.icon?}"></i>
+                        {? } ?}
+                        {?=$value.text?}
+                    </span>
+                    <span class="pull-right fa-angle-right"></span>
+                </div>
+                {?if($value.subs){ ?}
+                <ol class="dd-list">
+                    {?for(var index in $value['subs']){ ?}
+                    <li class="dd-item dd-item-alt" data-id="{?=$value['subs'][index].value?}" data-text="{?=$value['subs'][index].text?}" data-name="{?=$value['subs'][index].url?}" data-icon="{?=$value['subs'][index].icon?}"  data-type="{?=$value['subs'][index].type?}" data-status="{?=$value['subs'][index].status?}">
+                        <div class="dd-handle"></div>
+                        <div class="dd-content">
+                            <span class="menu-name">
+                                {?if($value['subs'][index].icon){ ?}
+                                    <i class="menu-icon {?=$value['subs'][index].icon ?}"></i>
+                                {? } ?}
+                                {?=$value['subs'][index].text?}
+                            </span>
+                            <span class="pull-right fa-angle-right"></span>
+                        </div>
+                        {?if($value.subs[index].subs){ ?}
+                        <ol class="dd-list">
+                            {?for(var index1 in $value.subs[index].subs){ ?}
+                            <li class="dd-item dd-item-alt" data-id="{?=$value.subs[index].subs[index1].value?}" data-text="{?=$value.subs[index].subs[index1].text?}" data-name="{?=$value.subs[index].subs[index1].url?}" data-icon="{?=$value.subs[index].subs[index1].icon?}" data-type="{?=$value.subs[index].subs[index1].type?}" data-status="{?=$value.subs[index].subs[index1].status?}">
+                                <div class="dd-handle"></div>
+                                <div class="dd-content">
+                                    <span class="menu-name">
+                                        {?if($value.subs[index].subs[index1].icon){ ?}
+                                            <i class="menu-icon {?=$value.subs[index].subs[index1].icon ?}"></i>
+                                        {? } ?}
+                                        {?=$value.subs[index].subs[index1].text?}
+                                    </span>
+                                    <span class="pull-right fa-angle-right"></span>
+                                </div>
+                                {?if($value.subs[index].subs[index1].subs){ ?}
+                                <ol class="dd-list">
+                                    {?for(var index2 in $value.subs[index].subs[index1].subs){ ?}
+                                    <li class="dd-item dd-item-alt" data-id="{?=$value.subs[index].subs[index1].subs[index2].value?}" data-text="{?=$value.subs[index].subs[index1].subs[index2].text?}" data-name="{?=$value.subs[index].subs[index1].subs[index2].url?}" data-icon="{?=$value.subs[index].subs[index1].subs[index2].icon?}" data-type="{?=$value.subs[index].subs[index1].subs[index2].type?}" data-status="{?=$value.subs[index].subs[index1].subs[index2].status?}">
+                                        <div class="dd-handle"></div>
+                                        <div class="dd-content">
+                                            <span class="menu-name">
+                                                {?if($value.subs[index].subs[index1].subs[index2].icon){ ?}
+                                                    <i class="menu-icon {?=$value.subs[index].subs[index1].subs[index2].icon ?}"></i>
+                                                {? } ?}
+                                                {?=$value.subs[index].subs[index1].subs[index2].text?}
+                                            </span>
+                                            <span class="pull-right fa-angle-right"></span>
+                                        </div>
+                                    </li>
+                                    {? } ?}
+                                </ol>
+                                {? } ?}
+                            </li>
+                            {? } ?}
+                        </ol>
+                        {? } ?}
+                    </li>
+                    {? } ?}
+                </ol>
+                {? } ?}
+            </div>
+        </li>
+        {? }) ?}
+    </ol>
+</script>
+
+
+<script id="menuInfoTpl" type="text/html">
+    <div class="menu-box animation-fade">
+        <h4>
+            {?=text?}
+            <button type="button" class="btn btn-pure btn-default btn-sm icon fa-trash-o pull-right delete-submenu"></button>
+        </h4>
+        <hr>
+        <div class="form fv-form fv-form-bootstrap">
+            <form id="compiler_submenu">
+                <div class="form-group">
+                    <input type="hidden" name="submenu_id" value="{?=value?}">
+                    <label class="control-label">图标&amp;名称：</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="input-group-addon btn btn-outline btn-default">
+                                <i class="fa {?=icon?}" id="menu-icon" data-icon="{?=icon?}"></i>
+                            </span>
+                            <button
+                                    data-placement="bottomLeft"
+                                    data-selected="graduation-cap"
+                                    type="button"
+                                    class="hidden icp icp-dd1"
+                                    data-plugin="iconpicker"
+                            ></button>
+                        </span>
+                        <input type="text" class="form-control" name="submenu_name" placeholder="菜单名称" value="{?=text?}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">菜单链接：</label>
+                    <input type="text" class="form-control" name="submenu_url" placeholder="菜单链接" value="{?=name?}">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">菜单类型：</label>
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="icesType1" name="type" value="1" {?if(type==1){ ?}checked{? } ?} />
+                                <label for="icesType1">顶部菜单</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="icesType2" name="type" value="2" {?if(type==2){ ?}checked{? } ?} />
+                                <label for="icesType2">左侧菜单</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="icesType3" name="type" value="3" {?if(type==3){ ?}checked{? } ?} >
+                                <label for="icesType3">非菜单界面</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">菜单状态：</label>
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="icesStatus1" name="status" value="1" {?if(status==1){ ?}checked{? } ?} />
+                                <label for="icesStatus1">开启</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="icesStatus2" name="status" value="0" {?if(status==0){ ?}checked{? } ?} />
+                                <label for="icesStatus2">关闭</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+<script id="menuItemTpl" type="text/template">
+    <li class="dd-item dd-item-alt" data-id="{?=value?}" data-text="{?=text?}" data-name="{?=url?}" data-icon="{?=icon?}" data-type="{?=type?}" data-status="{?=status?}">
+        <div class="dd-handle"></div>
+        <div class="dd-content">
+            <span class="menu-name">
+                <i class="menu-icon {?=icon ?}"></i>
+                {?=text?}
+            </span>
+            <span class="pull-right fa-angle-right"></span>
+        </div>
+        <ol class="dd-list"></ol>
+    </li>
+</script>
+<script>
+    $(document).ready(function(){
+        nodetpl.config({
+            openTag: '{?',
+            closeTag: '?}'
+        });
+
+        var sideMenus = {:json_encode($sideMenus)}, topMenus = {:json_encode($topMenu)};
+
+        var menuTpl = document.getElementById("menuTpl").innerHTML,
+                menuinfoTpl = document.getElementById("menuInfoTpl").innerHTML,
+                menuItemTpl = document.getElementById("menuItemTpl").innerHTML,
+                menuTree = $("#menuTree"),
+                menuInfo = $("#menuInfo");
+
+        var firstIndex, firstName;
+        for(var menuFirst in topMenus){
+            firstIndex = menuFirst;
+            firstName = topMenus[menuFirst].name;
+            break;
+        }
+        function renderList(data){
+            nodetpl.render(menuTpl, data, function(d){
+                menuTree.html(d);
+            });
+        }
+        renderList(sideMenus[firstName]);
+        function renderInfo(data){
+            data.value = data.id || data.value;
+            nodetpl.render(menuinfoTpl, data, function(d){
+                menuInfo.html(d);
+                window.parent.$.components._initDefault("iconpicker", document);
+            });
+        }
+        renderInfo(topMenus[firstIndex]);
+
+        // activate Nestable for list 1
+        var selectedSubMenu = null;
+        $('#menuTree').nestable({group: 1}).on('change', function(e){
+            var list   = e.length ? e : $(e.target);
+            if (window.JSON) {
+                console.log(list.nestable('serialize'));
+            } else {
+                output.val('JSON browser support required for this demo.');
+            }
+        }).on("click", ".dd-content", function(e){
+            $('#menuTree').find(".dd-content").each(function(n, v){
+                $(v).removeClass("active");
+            });
+            $(this).addClass("active");
+            selectedSubMenu = $(this).parent();
+            var data = $(this).parent().data(), pData = $("#topMenus").find(".active").data();
+            renderInfo(data);
+        });
+
+        $("#topMenus").on("click", ".list-group-item", function(){
+            $("#topMenus").find(".list-group-item").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+            renderList(sideMenus[$(this).data("name")]);
+            renderInfo(topMenus[$(this).data("id")]);
+        });
+
+        //写一下添加的效果
+        $("#addChlidMenuBtn").on("click", "a", function(){
+            if(selectedSubMenu == null){
+                toastr.error("尚未选择菜单");
+                return;
+            }
+            var data = {type: 2, text: "自定义菜单", icon: "wb-settings", name: "", status: 1};
+            if($(this).data("type") == "after"){
+                //在后面
+                nodetpl.render(menuItemTpl, data, function(d){
+                    selectedSubMenu.parent().append(d);
+                });
+            }else{
+                nodetpl.render(menuItemTpl, data, function(d){
+                    selectedSubMenu.find("ol").append(d);
+                });
+            }
+            renderInfo(data);
+        });
+
+        $("#saveChlidMenu").click(function(){
+            var data = {
+                id: $("input[name='submenu_id']").val(),
+                text: $("input[name='submenu_name']").val(),
+                icon: $("#menu-icon").attr("class").replace(" iconpicker-component", "").replace("fa ", ""),
+                name: $("input[name='submenu_url']").val(),
+                type: $("input[name='type']").val(),
+                status: $("input[name='status']").val(),
+            };
+            $.post("", data, function(result){
+                if(result.code == 1){
+                    toastr.success(result.msg);
+                }else{
+                    toastr.error(result.msg);
+                }
+            });
+        });
+    });
+</script>
