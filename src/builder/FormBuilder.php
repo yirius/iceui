@@ -23,6 +23,7 @@ class FormBuilder extends IBuilder
      */
     protected $formInputs = [];
 
+    protected $formControls = [];
 
     /**
      * @title 设置表单参数
@@ -157,8 +158,8 @@ class FormBuilder extends IBuilder
             }
         }
 
-        if(!is_array($value)){
-            $value = explode(",", $value);
+        if(is_array($value)){
+            $value = implode("", $value);
         }
 
         $this->_common("radio", $title, $name, $value, [
@@ -370,6 +371,42 @@ class FormBuilder extends IBuilder
     }
 
     /**
+     * @title 获取表单插件
+     * @description 获取表单插件
+     * @createtime: 2018/2/7 17:23
+     * @return string
+     */
+    public function getFormControl(){
+        if(empty($this->formControls)){
+            $this->formControls[] = "empty";
+        }
+        return join(",", $this->formControls);
+    }
+
+    /**
+     * @title 添加自定义控件
+     * @description 添加自定义控件
+     * @createtime: 2018/2/7 16:16
+     * @param string $html
+     * @param string $title
+     * @param string $name
+     * @param string $value
+     * @param array $config
+     * @return $this
+     */
+    public function addControl($html, $title, $name, $value = '', $config = []){
+        $this->formInputs[] = [
+            'type' => $html,
+            'title' => $title,
+            'name' => $name,
+            'value' => empty($value)?(isset($this->formValue[$name])?$this->formValue[$name]:""):$value,
+            'config' => $config
+        ];
+        $this->formControls[] = $html;
+        return $this;
+    }
+
+    /**
      * @title 获取界面的form内容
      * @description 返回绘制完成的html
      * @createtime: 2018/1/19 15:12
@@ -386,6 +423,7 @@ class FormBuilder extends IBuilder
         return $this
             ->assign("_icesPostUrl", $url)
             ->assign("_icesFormInputs", $this->formInputs)
+            ->assign("_icesFormControls", $this->getFormControl())
             ->render("form/index");
     }
 }

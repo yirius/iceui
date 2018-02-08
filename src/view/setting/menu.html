@@ -104,60 +104,77 @@
 
 <script id="menuTpl" type="text/template">
     <ol class="dd-list animation-fade">
-        {?subs.forEach(function($value,$index,$array){ ?}
-        <li class="dd-item dd-item-alt" data-id="{?=$value.value?}" data-text="{?=$value.text?}" data-name="{?=$value.url?}" data-icon="{?=$value.icon?}" data-type="{?=$value.type?}" data-status="{?=$value.status?}">
+        <li class="dd-item dd-item-alt" data-id="{?=top.value?}" data-text="{?=top.text?}" data-name="{?=top.url?}" data-icon="{?=top.icon?}" data-type="{?=top.type?}" data-status="{?=top.status?}">
             <div class="dd-handle"></div>
-            <div class="dd-content">
+            <div class="dd-content active">
                     <span class="menu-name">
-                        {?if($value.icon){ ?}
-                        <i class="menu-icon {?=$value.icon?}"></i>
+                        {?if(top.icon){ ?}
+                        <i class="menu-icon {?=top.icon?}"></i>
                         {? } ?}
-                        {?=$value.text?}
+                        {?=top.text?}
                     </span>
-                    <span class="pull-right fa-angle-right"></span>
-                </div>
-                {?if($value.subs){ ?}
-                <ol class="dd-list">
-                    {?for(var index in $value['subs']){ ?}
-                    <li class="dd-item dd-item-alt" data-id="{?=$value['subs'][index].value?}" data-text="{?=$value['subs'][index].text?}" data-name="{?=$value['subs'][index].url?}" data-icon="{?=$value['subs'][index].icon?}"  data-type="{?=$value['subs'][index].type?}" data-status="{?=$value['subs'][index].status?}">
-                        <div class="dd-handle"></div>
-                        <div class="dd-content">
+                <span class="pull-right fa-angle-right"></span>
+            </div>
+            {?if(list.subs || false){ ?}
+            <ol class="dd-list animation-fade">
+                {?list.subs.forEach(function($value,$index,$array){ ?}
+                <li class="dd-item dd-item-alt" data-id="{?=$value.value?}" data-text="{?=$value.text?}" data-name="{?=$value.url?}" data-icon="{?=$value.icon?}" data-type="{?=$value.type?}" data-status="{?=$value.status?}">
+                    <div class="dd-handle"></div>
+                    <div class="dd-content">
                             <span class="menu-name">
-                                {?if($value['subs'][index].icon){ ?}
-                                    <i class="menu-icon {?=$value['subs'][index].icon ?}"></i>
+                                {?if($value.icon){ ?}
+                                <i class="menu-icon {?=$value.icon?}"></i>
                                 {? } ?}
-                                {?=$value['subs'][index].text?}
+                                {?=$value.text?}
                             </span>
                             <span class="pull-right fa-angle-right"></span>
                         </div>
-                        {?if($value.subs[index].subs){ ?}
+                        {?if($value.subs){ ?}
                         <ol class="dd-list">
-                            {?for(var index1 in $value.subs[index].subs){ ?}
-                            <li class="dd-item dd-item-alt" data-id="{?=$value.subs[index].subs[index1].value?}" data-text="{?=$value.subs[index].subs[index1].text?}" data-name="{?=$value.subs[index].subs[index1].url?}" data-icon="{?=$value.subs[index].subs[index1].icon?}" data-type="{?=$value.subs[index].subs[index1].type?}" data-status="{?=$value.subs[index].subs[index1].status?}">
+                            {?for(var index in $value['subs']){ ?}
+                            <li class="dd-item dd-item-alt" data-id="{?=$value['subs'][index].value?}" data-text="{?=$value['subs'][index].text?}" data-name="{?=$value['subs'][index].url?}" data-icon="{?=$value['subs'][index].icon?}"  data-type="{?=$value['subs'][index].type?}" data-status="{?=$value['subs'][index].status?}">
                                 <div class="dd-handle"></div>
                                 <div class="dd-content">
                                     <span class="menu-name">
-                                        {?if($value.subs[index].subs[index1].icon){ ?}
-                                            <i class="menu-icon {?=$value.subs[index].subs[index1].icon ?}"></i>
+                                        {?if($value['subs'][index].icon){ ?}
+                                            <i class="menu-icon {?=$value['subs'][index].icon ?}"></i>
                                         {? } ?}
-                                        {?=$value.subs[index].subs[index1].text?}
+                                        {?=$value['subs'][index].text?}
                                     </span>
                                     <span class="pull-right fa-angle-right"></span>
                                 </div>
-                                {?if($value.subs[index].subs[index1].subs){ ?}
+                                {?if($value.subs[index].subs){ ?}
                                 <ol class="dd-list">
-                                    {?for(var index2 in $value.subs[index].subs[index1].subs){ ?}
-                                    <li class="dd-item dd-item-alt" data-id="{?=$value.subs[index].subs[index1].subs[index2].value?}" data-text="{?=$value.subs[index].subs[index1].subs[index2].text?}" data-name="{?=$value.subs[index].subs[index1].subs[index2].url?}" data-icon="{?=$value.subs[index].subs[index1].subs[index2].icon?}" data-type="{?=$value.subs[index].subs[index1].subs[index2].type?}" data-status="{?=$value.subs[index].subs[index1].subs[index2].status?}">
+                                    {?for(var index1 in $value.subs[index].subs){ ?}
+                                    <li class="dd-item dd-item-alt" data-id="{?=$value.subs[index].subs[index1].value?}" data-text="{?=$value.subs[index].subs[index1].text?}" data-name="{?=$value.subs[index].subs[index1].url?}" data-icon="{?=$value.subs[index].subs[index1].icon?}" data-type="{?=$value.subs[index].subs[index1].type?}" data-status="{?=$value.subs[index].subs[index1].status?}">
                                         <div class="dd-handle"></div>
                                         <div class="dd-content">
                                             <span class="menu-name">
-                                                {?if($value.subs[index].subs[index1].subs[index2].icon){ ?}
-                                                    <i class="menu-icon {?=$value.subs[index].subs[index1].subs[index2].icon ?}"></i>
+                                                {?if($value.subs[index].subs[index1].icon){ ?}
+                                                    <i class="menu-icon {?=$value.subs[index].subs[index1].icon ?}"></i>
                                                 {? } ?}
-                                                {?=$value.subs[index].subs[index1].subs[index2].text?}
+                                                {?=$value.subs[index].subs[index1].text?}
                                             </span>
                                             <span class="pull-right fa-angle-right"></span>
                                         </div>
+                                        {?if($value.subs[index].subs[index1].subs){ ?}
+                                        <ol class="dd-list">
+                                            {?for(var index2 in $value.subs[index].subs[index1].subs){ ?}
+                                            <li class="dd-item dd-item-alt" data-id="{?=$value.subs[index].subs[index1].subs[index2].value?}" data-text="{?=$value.subs[index].subs[index1].subs[index2].text?}" data-name="{?=$value.subs[index].subs[index1].subs[index2].url?}" data-icon="{?=$value.subs[index].subs[index1].subs[index2].icon?}" data-type="{?=$value.subs[index].subs[index1].subs[index2].type?}" data-status="{?=$value.subs[index].subs[index1].subs[index2].status?}">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name">
+                                                        {?if($value.subs[index].subs[index1].subs[index2].icon){ ?}
+                                                            <i class="menu-icon {?=$value.subs[index].subs[index1].subs[index2].icon ?}"></i>
+                                                        {? } ?}
+                                                        {?=$value.subs[index].subs[index1].subs[index2].text?}
+                                                    </span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+                                            </li>
+                                            {? } ?}
+                                        </ol>
+                                        {? } ?}
                                     </li>
                                     {? } ?}
                                 </ol>
@@ -166,13 +183,12 @@
                             {? } ?}
                         </ol>
                         {? } ?}
-                    </li>
-                    {? } ?}
-                </ol>
-                {? } ?}
-            </div>
+                    </div>
+                </li>
+                {? }) ?}
+            </ol>
+            {? } ?}
         </li>
-        {? }) ?}
     </ol>
 </script>
 
@@ -187,7 +203,6 @@
         <div class="form fv-form fv-form-bootstrap">
             <form id="compiler_submenu">
                 <div class="form-group">
-                    <input type="hidden" name="submenu_id" value="{?=value?}">
                     <label class="control-label">图标&amp;名称：</label>
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -287,12 +302,20 @@
             firstName = topMenus[menuFirst].name;
             break;
         }
-        function renderList(data){
-            nodetpl.render(menuTpl, data, function(d){
+        function renderList(firstName){
+            var TopMenu = {};
+            for(var i in topMenus){
+                if(topMenus[i].name == firstName){
+                    TopMenu = topMenus[i];
+                    break;
+                }
+            }
+            var TplData = {list: sideMenus[firstName], top: TopMenu};
+            nodetpl.render(menuTpl, TplData, function(d){
                 menuTree.html(d);
             });
         }
-        renderList(sideMenus[firstName]);
+        renderList(firstName);
         function renderInfo(data){
             data.value = data.id || data.value;
             nodetpl.render(menuinfoTpl, data, function(d){
@@ -326,7 +349,7 @@
                 $(this).removeClass("active");
             });
             $(this).addClass("active");
-            renderList(sideMenus[$(this).data("name")]);
+            renderList($(this).data("name"));
             renderInfo(topMenus[$(this).data("id")]);
         });
 
@@ -351,21 +374,20 @@
         });
 
         $("#saveChlidMenu").click(function(){
-            var data = {
-                id: $("input[name='submenu_id']").val(),
-                text: $("input[name='submenu_name']").val(),
-                icon: $("#menu-icon").attr("class").replace(" iconpicker-component", "").replace("fa ", ""),
-                name: $("input[name='submenu_url']").val(),
-                type: $("input[name='type']").val(),
-                status: $("input[name='status']").val(),
-            };
-            $.post("", data, function(result){
-                if(result.code == 1){
-                    toastr.success(result.msg);
-                }else{
-                    toastr.error(result.msg);
-                }
-            });
+            console.log($("#menuTree").nestable('serialize'));
+        });
+
+        //设置右侧点击
+        $(document).on("change", "input[name='submenu_name']", function(){
+            $("#menuTree").find(".active").text(this.value).parent().data("text", this.value);
+        });
+        document.getElementById("menu-icon").addEventListener("DOMSubtreeModified", function(){
+            console.log(1);
+        });
+        $('.icp-dd1').iconpicker("iconpicker", {
+            'title': "测试"
+        }).on("iconpickerSelected",function(_0x28b4db) {
+            console.log(_0x28b4db["iconpickerValue"]);
         });
     });
 </script>

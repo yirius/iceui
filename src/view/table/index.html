@@ -32,7 +32,9 @@
             <div class="page-header">
                 <h1 class="page-title">{$_icesPanel['title']|default=''}</h1>
                 <div class="page-header-actions">
-                    {$_icesPanel['header']|default=''}
+                    {notempty name="_icesPanel['header']"}
+                        {:htmlspecialchars_decode($_icesPanel['header'])}
+                    {/notempty}
                 </div>
             </div>
             <div class="panel">

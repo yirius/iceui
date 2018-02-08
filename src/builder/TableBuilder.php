@@ -78,6 +78,9 @@ class TableBuilder extends IBuilder
         return $this;
     }
 
+    protected $_icesFormInputs = [];
+    protected $_icesFormControls = "empty";
+
     /**
      * @title setSearchForm
      * @description
@@ -86,7 +89,8 @@ class TableBuilder extends IBuilder
      * @return \icesui\Builder\TableBuilder
      */
     public function setSearchForm(FormBuilder $formBuilder){
-        $this->assign("_icesFormInputs", $formBuilder->getFormInputs());
+        $this->_icesFormInputs = $formBuilder->getFormInputs();
+        $this->_icesFormControls = $formBuilder->getFormControl();
         return $this;
     }
 
@@ -101,6 +105,8 @@ class TableBuilder extends IBuilder
         if($html == "delete"){
             //如果是删除,那就默认一个
             $this->leftBtns.='<a class="btn btn-danger btn-sm" disabled="disabled" id="icesdataTableDelete" style="margin-right: 15px">删除</a>';
+        }else{
+            $this->leftBtns.= $html;
         }
         return $this;
     }
@@ -130,6 +136,8 @@ class TableBuilder extends IBuilder
             ->assign("_icesTableColumns", $this->columns)
             ->assign("_icesTableColumnsDetail", $this->columnsDetail)
             ->assign("_icesTableBtn", $this->leftBtns)
+            ->assign("_icesFormInputs", $this->_icesFormInputs)
+            ->assign("_icesFormControls", $this->_icesFormControls)
             ->render("table/index");
     }
 }

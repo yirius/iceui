@@ -81,7 +81,8 @@ HTML
             ->addLinks([
                 $iBuilder->config['view_assets'] . "/js/icesui/app.js",
                 $iBuilder->config['view_assets'] . "/vendor/nestable/jquery.nestable.min.js",
-                $iBuilder->config['view_assets'] . "/vendor/nodetpl/nodetpl.client.min.js"
+                $iBuilder->config['view_assets'] . "/vendor/nodetpl/nodetpl.client.min.js",
+                $iBuilder->config['view_assets'] . "/vendor/iconpicker/iconpicker.min.js",
             ], "script")
             ->assign("topMenu", $menus['topMenus'])
             ->assign("sideMenus", $menus['sideMenus'])

@@ -49,5 +49,8 @@
             {include file="form/include/ueditor" type='' /}
         {/case}
 
+        {default /} {// 先把其他所有的都带入进来 }
+            {include file="$_icesFormControls" type='' /}
+
     {/switch}
 {/foreach}
