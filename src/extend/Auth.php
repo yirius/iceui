@@ -73,7 +73,7 @@ class Auth
      * @return bool
      */
     public function checkUrl($uid){
-        $urlArray = explode("/", $this->request->baseUrl());
+        $urlArray = explode("/", str_replace("//", "/", $this->request->baseUrl()));
         if(empty($urlArray[0])){
             //如果0是空的,那就是形如/icesui/setting/name
             $module = $urlArray[1];
