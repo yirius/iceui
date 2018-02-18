@@ -73,7 +73,7 @@ CREATE TABLE `ices_auth_group` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;");
         $output->comment("insert auth_user default rows");
         db()->query(<<<EOF
-INSERT INTO `ices_auth_user` VALUES ('1', '12345678912', '12345678912', 'Test', 'bcc24a4dc43058e660d8a5f5bd46702879948f5d', '1', '123456', '2017-01-23 15:38:45', '2017-06-30 18:38:23', '0', '{\"navigationColor\":\"bg-green-600\",\"acrossFlag\":\"navbar-inverse\",\"menuTheme\":\"site-menubar-light\",\"menuDisplay\":\"site-menubar-unfold\",\"menuTxtIcon\":\"site-menubar-keep\",\"themeColor\":\"green\",\"tabFlag\":\"site-contabs-open\"}');
+INSERT INTO `ices_auth_user` VALUES ('1', '12345678912', '12345678912', 'Test', '71dd07494c5ee54992a27746d547e25dee01bd97', '1', '123456', '2017-01-23 15:38:45', '2017-06-30 18:38:23', '0', '{\"navigationColor\":\"bg-green-600\",\"acrossFlag\":\"navbar-inverse\",\"menuTheme\":\"site-menubar-light\",\"menuDisplay\":\"site-menubar-unfold\",\"menuTxtIcon\":\"site-menubar-keep\",\"themeColor\":\"green\",\"tabFlag\":\"site-contabs-open\"}');
 EOF
 );
         $output->comment("create successful");
