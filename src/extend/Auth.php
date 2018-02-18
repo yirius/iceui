@@ -9,6 +9,7 @@ namespace icesui\extend;
 
 
 use think\Container;
+use think\facade\Route;
 use think\Loader;
 use think\Request;
 
@@ -65,7 +66,18 @@ class Auth
     }
 
     public function checkUrl($uid){
-        return $this->check($this->request->module()."-".$this->request->controller()."-".$this->request->action(), $uid, [1,2,3]);
+        $urlArray = explode("/", $this->request->baseUrl());
+        if(empty($urlArray[0])){
+            //如果0是空的,那就是形如/icesui/setting/name
+            $module = $urlArray[1];
+            $controller = $urlArray[2];
+            $action = $urlArray[3];
+        }else{
+            $module = $urlArray[0];
+            $controller = $urlArray[1];
+            $action = $urlArray[2];
+        }
+        return $this->check("/".$module."/".$controller."/".$action, $uid, [1,2,3]);
     }
 
     /**
@@ -215,7 +227,15 @@ class Auth
     }
 
 
-    public function getAuthMenus($rule = ''){
+    /**
+     * @title 获取到当前用户可以看到的界面和菜单
+     * @description 获取到当前用户可以看到的界面和菜单
+     * @createtime: 2018/2/18 01:06
+     * @param string $rule
+     * @param int $selectType
+     * @return array
+     */
+    public function getAuthMenus($rule = '', $selectType = 1){
         static $authmenus = [];
         if(!empty($authmenus)){
             return $authmenus;
@@ -230,12 +250,12 @@ class Auth
         if(empty($rule)) $rule = $this->rules;
         if($rule == "all")
             $where = [
-                ['type', 'in', '1,2'],
+                ['type', 'in', $selectType==1?'1,2':'1,2,3'],
                 ['status', '=', 1]
             ];
         else
             $where = [
-                ['type', 'in', '1,2'],
+                ['type', 'in', $selectType==1?'1,2':'1,2,3'],
                 ['status', '=', 1],
                 ['id', 'in', $rule]
             ];
@@ -286,6 +306,48 @@ class Auth
             'topMenus' => $topMenus,
             'sideMenus' => $sideMenus
         ];
+    }
+
+    /**
+     * @title 获取到针对于ztree的样式
+     * @description 获取到针对于ztree的样式
+     * @createtime: 2018/2/18 01:07
+     * @return array
+     */
+    public function getUserMenuForTree(){
+        $rules = $this->getAuthMenus('all', 2);
+        $result = [];
+        foreach($rules['topMenus'] as $i => $v){
+            $result[] = [
+                'id' => $v['value'],
+                'pId' => 0,
+                'name' => $v['text']
+            ];
+        }
+        foreach($rules['sideMenus'] as $i => $v){
+            $this->_formatSubMenus($result, $v['subs']);
+        }
+        return $result;
+    }
+
+    /**
+     * @title 上方辅助类
+     * @description 辅助递归获取到所有的列表
+     * @createtime: 2018/2/18 01:07
+     * @param $result
+     * @param $tree
+     */
+    protected function _formatSubMenus(&$result, $tree){
+        foreach($tree as $i => $v){
+            $result[] = [
+                'id' => $v['value'],
+                'pId' => $v['pid'],
+                'name' => $v['text']
+            ];
+            if(!empty($v['subs'])){
+                $this->_formatSubMenus($result, $v['subs']);
+            }
+        }
     }
 
     /**

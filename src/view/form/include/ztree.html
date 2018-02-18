@@ -1,0 +1,7 @@
+<div class="form-group {$_icesRender['config']['class']}">
+    <label class="control-label">{$_icesRender['title']}</label>
+    <div class="form-group">
+        <input type="hidden" name="{$_icesRender['name']}" value="{$_icesRender['value']}" />
+        <ul data-plugin="ztree" class="ztree" id="icestree{$_icesRender['name']}" data-ztree='{:json_encode($_icesRender['config']['options'])}'></ul>
+    </div>
+</div>

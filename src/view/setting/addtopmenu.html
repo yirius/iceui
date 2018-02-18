@@ -1,0 +1,88 @@
+<div class="page bg-white animation-fade page-menu height-full">
+    <div class="page-main has-submenu nav-submenu height-full">
+        <div id="controlMenu">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">图标&amp;名称：</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="input-group-addon btn btn-outline btn-default">
+                                <i class="fa {$rulevalue['icon']|default='fa-bars'} top-menu-icon" data-icon="{$rulevalue['icon']|default='fa-bars'}" id="iconSelected"></i>
+                            </span>
+                            <button data-placement="bottomLeft" data-selected="graduation-cap" type="button" class="hidden icp icp-dd"></button>
+                        </span>
+                        <input type="text" class="form-control" name="menu_name" value="{$rulevalue['text']|default=''}" placeholder="菜单名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">菜单链接：</label>
+                    <div class="input-group" style="width: 100%">
+                        <input type="text" class="form-control" name="menu_url" value="{$rulevalue['name']|default=''}" placeholder="菜单链接">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">菜单排序：</label>
+                    <div class="input-group" style="width: 100%">
+                        <input type="text" class="form-control" name="menu_listorder" value="{$rulevalue['list_order']|default='0'}" placeholder="菜单排序">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">菜单状态：</label>
+                    <div class="input-group" style="width: 100%">
+                        <div class="radio-custom radio-primary inline">
+                            <input type="radio" id="icesStatus1" name="menu_status" value="1" {if !empty($rulevalue['status']) && $rulevalue['status'] == 1}checked="checked"{/if}>
+                            <label for="icesStatus1">开启</label>
+                        </div>
+                        <div class="radio-custom radio-primary inline">
+                            <input type="radio" id="icesStatus2" name="menu_status" value="0" {if !empty($rulevalue['status']) && $rulevalue['status'] == 0}checked="checked"{/if}>
+                            <label for="icesStatus2">关闭</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary add-top-menu" id="submitBtn">保存</button>
+                <a class="btn btn-default" id="cancelBtn">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        var iconSelected = $("#iconSelected");
+        $('.icp-dd').iconpicker("iconpicker", {
+            'title': "测试"
+        }).on("iconpickerSelected",function(data) {
+            iconSelected.data("icon", data["iconpickerValue"]).attr("data-icon", data["iconpickerValue"]);
+        });
+        $("#submitBtn").click(function(){
+            var name = $("input[name='menu_name']").val(), url = $("input[name='menu_url']").val(), status = $("input[name='menu_status']").val(), icon = iconSelected.data("icon"), menu_listorder = $("input[name='menu_listorder']").val();
+            if(name == ""){
+                toastr.error("菜单名称必须填写");
+                return;
+            }
+            if(url == ""){
+                toastr.error("对应网址必须填写");
+                return;
+            }
+            $.post("", {text: name, name: url, status: status, icon: icon, list_order: menu_listorder}, function(data){
+                if(data.code == 1){
+                    if({:input("param.id")}){
+                        toastr.success("修改成功,请重新打开界面");
+                    }else{
+                        toastr.success("添加成功,请重新打开界面");
+                    }
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index); //再执行关闭
+                }else{
+                    toastr.error(data.msg);
+                }
+            });
+        });
+        $("#cancelBtn").click(function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index); //再执行关闭
+        });
+    });
+</script>

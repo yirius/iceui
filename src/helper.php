@@ -31,9 +31,13 @@ Route::group('icesui', function () {
     Route::any('setting/group', '\\icesui\\controller\\Setting@group');
     Route::any('setting/groupadd', '\\icesui\\controller\\Setting@groupadd');
     Route::any('setting/menu', '\\icesui\\controller\\Setting@menu');
+    Route::any('setting/doMenu', '\\icesui\\controller\\Setting@doMenu');
+    Route::any('setting/addTopMenu', '\\icesui\\controller\\Setting@addTopMenu');
+    Route::any('setting/users', '\\icesui\\controller\\Setting@users');
+    Route::any('setting/usersadd', '\\icesui\\controller\\Setting@usersadd');
 });
 
 //加入console
 Console::addDefaultCommands([
-    "icesui\\icescommand\\init"
+    "icesui\\icescommand\\Init"
 ]);

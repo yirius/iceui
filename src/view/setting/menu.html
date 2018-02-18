@@ -18,10 +18,10 @@
                                 {$topMenu_val.text}
                             </span>
                             <div class="item-actions">
-                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu">
+                                <span class="btn btn-pure btn-icon btn-editTop" data-id="{$topMenu_val.value}">
                                     <i class="icon wb-edit" aria-hidden="true"></i>
                                 </span>
-                                <span class="btn btn-pure btn-icon" data-tag="list-delete">
+                                <span class="btn btn-pure btn-icon btn-deleteTop" data-id="{$topMenu_val.value}">
                                     <i class="icon wb-close" aria-hidden="true"></i>
                                 </span>
                             </div>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="page-aside-section hidden-xs">
-                <a class="list-group-item" href="#" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu" id="addMenuToggle">
+                <a class="list-group-item" href="#" id="addMenuToggle">
                     <i class="icon wb-plus" aria-hidden="true"></i>
                     添加新菜单
                 </a>
@@ -85,33 +85,24 @@
                         </li>
                     </ul>
                 </div>
-                <button type="button" class="btn btn-success" id="saveChlidMenuOrder">
-                    保存排序
-                </button>
                 <button type="button" class="btn btn-success" id="saveChlidMenu">
-                    保存菜单
+                    保存排序
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="addMenu" aria-hidden="true" aria-labelledby="addMenu" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-center">
-        <div class="modal-content"></div>
-    </div>
-</div>
-
 <script id="menuTpl" type="text/template">
     <ol class="dd-list animation-fade">
-        <li class="dd-item dd-item-alt" data-id="{?=top.value?}" data-text="{?=top.text?}" data-name="{?=top.url?}" data-icon="{?=top.icon?}" data-type="{?=top.type?}" data-status="{?=top.status?}">
+        <li class="dd-item dd-item-alt" data-id="{?=top.value?}" data-text="{?=top.text?}" data-name="{?=top.name?}" data-icon="{?=top.icon?}" data-type="{?=top.type?}" data-status="{?=top.status?}">
             <div class="dd-handle"></div>
             <div class="dd-content active">
                     <span class="menu-name">
                         {?if(top.icon){ ?}
                         <i class="menu-icon {?=top.icon?}"></i>
                         {? } ?}
-                        {?=top.text?}
+                        <b>{?=top.text?}</b>
                     </span>
                 <span class="pull-right fa-angle-right"></span>
             </div>
@@ -125,7 +116,7 @@
                                 {?if($value.icon){ ?}
                                 <i class="menu-icon {?=$value.icon?}"></i>
                                 {? } ?}
-                                {?=$value.text?}
+                                <b>{?=$value.text?}</b>
                             </span>
                             <span class="pull-right fa-angle-right"></span>
                         </div>
@@ -139,7 +130,7 @@
                                         {?if($value['subs'][index].icon){ ?}
                                             <i class="menu-icon {?=$value['subs'][index].icon ?}"></i>
                                         {? } ?}
-                                        {?=$value['subs'][index].text?}
+                                        <b>{?=$value['subs'][index].text?}</b>
                                     </span>
                                     <span class="pull-right fa-angle-right"></span>
                                 </div>
@@ -153,7 +144,7 @@
                                                 {?if($value.subs[index].subs[index1].icon){ ?}
                                                     <i class="menu-icon {?=$value.subs[index].subs[index1].icon ?}"></i>
                                                 {? } ?}
-                                                {?=$value.subs[index].subs[index1].text?}
+                                                <b>{?=$value.subs[index].subs[index1].text?}</b>
                                             </span>
                                             <span class="pull-right fa-angle-right"></span>
                                         </div>
@@ -167,7 +158,7 @@
                                                         {?if($value.subs[index].subs[index1].subs[index2].icon){ ?}
                                                             <i class="menu-icon {?=$value.subs[index].subs[index1].subs[index2].icon ?}"></i>
                                                         {? } ?}
-                                                        {?=$value.subs[index].subs[index1].subs[index2].text?}
+                                                        <b>{?=$value.subs[index].subs[index1].subs[index2].text?}</b>
                                                     </span>
                                                     <span class="pull-right fa-angle-right"></span>
                                                 </div>
@@ -191,13 +182,11 @@
         </li>
     </ol>
 </script>
-
-
 <script id="menuInfoTpl" type="text/html">
     <div class="menu-box animation-fade">
         <h4>
             {?=text?}
-            <button type="button" class="btn btn-pure btn-default btn-sm icon fa-trash-o pull-right delete-submenu"></button>
+            <button type="button" class="btn btn-pure btn-default btn-sm icon fa-trash-o pull-right delete-submenu" data-id="{?=value?}"></button>
         </h4>
         <hr>
         <div class="form fv-form fv-form-bootstrap">
@@ -282,112 +271,6 @@
     </li>
 </script>
 <script>
-    $(document).ready(function(){
-        nodetpl.config({
-            openTag: '{?',
-            closeTag: '?}'
-        });
-
-        var sideMenus = {:json_encode($sideMenus)}, topMenus = {:json_encode($topMenu)};
-
-        var menuTpl = document.getElementById("menuTpl").innerHTML,
-                menuinfoTpl = document.getElementById("menuInfoTpl").innerHTML,
-                menuItemTpl = document.getElementById("menuItemTpl").innerHTML,
-                menuTree = $("#menuTree"),
-                menuInfo = $("#menuInfo");
-
-        var firstIndex, firstName;
-        for(var menuFirst in topMenus){
-            firstIndex = menuFirst;
-            firstName = topMenus[menuFirst].name;
-            break;
-        }
-        function renderList(firstName){
-            var TopMenu = {};
-            for(var i in topMenus){
-                if(topMenus[i].name == firstName){
-                    TopMenu = topMenus[i];
-                    break;
-                }
-            }
-            var TplData = {list: sideMenus[firstName], top: TopMenu};
-            nodetpl.render(menuTpl, TplData, function(d){
-                menuTree.html(d);
-            });
-        }
-        renderList(firstName);
-        function renderInfo(data){
-            data.value = data.id || data.value;
-            nodetpl.render(menuinfoTpl, data, function(d){
-                menuInfo.html(d);
-                window.parent.$.components._initDefault("iconpicker", document);
-            });
-        }
-        renderInfo(topMenus[firstIndex]);
-
-        // activate Nestable for list 1
-        var selectedSubMenu = null;
-        $('#menuTree').nestable({group: 1}).on('change', function(e){
-            var list   = e.length ? e : $(e.target);
-            if (window.JSON) {
-                console.log(list.nestable('serialize'));
-            } else {
-                output.val('JSON browser support required for this demo.');
-            }
-        }).on("click", ".dd-content", function(e){
-            $('#menuTree').find(".dd-content").each(function(n, v){
-                $(v).removeClass("active");
-            });
-            $(this).addClass("active");
-            selectedSubMenu = $(this).parent();
-            var data = $(this).parent().data(), pData = $("#topMenus").find(".active").data();
-            renderInfo(data);
-        });
-
-        $("#topMenus").on("click", ".list-group-item", function(){
-            $("#topMenus").find(".list-group-item").each(function(){
-                $(this).removeClass("active");
-            });
-            $(this).addClass("active");
-            renderList($(this).data("name"));
-            renderInfo(topMenus[$(this).data("id")]);
-        });
-
-        //写一下添加的效果
-        $("#addChlidMenuBtn").on("click", "a", function(){
-            if(selectedSubMenu == null){
-                toastr.error("尚未选择菜单");
-                return;
-            }
-            var data = {type: 2, text: "自定义菜单", icon: "wb-settings", name: "", status: 1};
-            if($(this).data("type") == "after"){
-                //在后面
-                nodetpl.render(menuItemTpl, data, function(d){
-                    selectedSubMenu.parent().append(d);
-                });
-            }else{
-                nodetpl.render(menuItemTpl, data, function(d){
-                    selectedSubMenu.find("ol").append(d);
-                });
-            }
-            renderInfo(data);
-        });
-
-        $("#saveChlidMenu").click(function(){
-            console.log($("#menuTree").nestable('serialize'));
-        });
-
-        //设置右侧点击
-        $(document).on("change", "input[name='submenu_name']", function(){
-            $("#menuTree").find(".active").text(this.value).parent().data("text", this.value);
-        });
-        document.getElementById("menu-icon").addEventListener("DOMSubtreeModified", function(){
-            console.log(1);
-        });
-        $('.icp-dd1').iconpicker("iconpicker", {
-            'title': "测试"
-        }).on("iconpickerSelected",function(_0x28b4db) {
-            console.log(_0x28b4db["iconpickerValue"]);
-        });
-    });
+    var sideMenus = {:json_encode($sideMenus)}, topMenus = {:json_encode($topMenu)};
 </script>
+<script src="__ASSETS__/js/app/setting_menu.js"></script>

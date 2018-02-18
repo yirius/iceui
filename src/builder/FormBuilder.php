@@ -361,6 +361,38 @@ class FormBuilder extends IBuilder
     }
 
     /**
+     * @title 添加一个树形控件
+     * @description 参数如下{id:1, pId:0, name:"[core] 基本功能 演示", open:true}
+     * @createtime: 2018/2/18 00:37
+     * @param string $title input显示的标题 true '' ''
+     * @param string $name input对应提交的name true '' ''
+     * @param array $options 对应需要显示的列表 true {id:1,pId:0,name:"[core]基本功能演示",open:true} ''
+     * @param array $value
+     * @param string $class
+     * @return $this
+     */
+    public function addZtree($title, $name, $options = [], $value = [], $class = 'col-sm-4 col-lg-3'){
+        $this->addLinks([
+            $this->config['view_assets'] . "/vendor/ztree/bootstrapStyle.css",
+        ])->addLinks([
+            $this->config['view_assets'] . "/vendor/ztree/jquery.ztree.core.js",
+            $this->config['view_assets'] . "/vendor/ztree/jquery.ztree.excheck.js",
+//            $this->config['view_assets'] . "/vendor/ztree/jquery.ztree.exedit.js",
+            $this->config['view_assets'] . "/vendor/ztree/ztree.js",
+        ], "prescript");
+        foreach($options as $i => $v){
+            if(in_array($v['id'], $value)){
+                $options[$i]['checked'] = true;
+            }
+        }
+        $this->_common("ztree", $title, $name, is_array($value)?join(",", $value):$value, [
+            'class' => $class,
+            'options' => $options
+        ]);
+        return $this;
+    }
+
+    /**
      * @title 获取到表单的所有内容项目
      * @description 获取到表单的所有内容项目,配合assign命名为_icesFormInputs,就可以使用
      * @createtime: 2018/1/10 14:15

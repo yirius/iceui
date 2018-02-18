@@ -12,7 +12,7 @@ use think\Controller;
 
 class MgController extends Controller
 {
-    protected function _initialize()
+    protected function initialize()
     {
         $canView = Auth::instance()->checkUrl(session("manager.id"));
         if($canView === false){

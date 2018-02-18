@@ -66,11 +66,17 @@ class Model extends \think\Model
         }
         if(!empty($with)){
             $this->alias('a')->join($with);
-        }
-        if(empty($group)){
-            $count = $this->where($where)->where($where_extra)->count();
+            if(empty($group)){
+                $count = $this->alias('a')->join($with)->where($where)->where($where_extra)->count();
+            }else{
+                $count = $this->alias('a')->join($with)->where($where)->where($where_extra)->group($group_by_key)->count();
+            }
         }else{
-            $count = $this->where($where)->where($where_extra)->group($group_by_key)->count();
+            if(empty($group)){
+                $count = $this->where($where)->where($where_extra)->count();
+            }else{
+                $count = $this->where($where)->where($where_extra)->group($group_by_key)->count();
+            }
         }
 
         //start
@@ -132,13 +138,13 @@ class Model extends \think\Model
     /**
      * @title 自动删除功能
      * @description 自动删除功能
-     * @createtime: 2018/1/25 16:40
-     * @param array $ids
+     * @createtime: ct
+     * @param string $afterDelete
      * @param array $notDelete
+     * @param array $ids
      * @param string $pkField
-     * @return \think\Exception
      */
-    public function AutoDelete($notDelete = [], $ids = [], $pkField = "id"){
+    public function AutoDelete($afterDelete = '', $notDelete = [], $ids = [], $pkField = "id"){
         if(empty($ids)){
             $ids = input('param.')['ids'];
             if(!empty($ids))
@@ -152,9 +158,36 @@ class Model extends \think\Model
                     $errorDelete[] = $v;
             }
         }
-        if(empty($errorDelete))
+        if(empty($errorDelete)){
             $this->success('提交成功');
-        else
+        }
+        else{
+            if($afterDelete instanceof \Closure){
+                $afterDelete(0, $errorDelete);
+            }
             $this->error(join(",", $errorDelete)."删除失败");
+        }
+    }
+
+    /**
+     * @title 自动生成一个查询的列表
+     * @description 自动生成一个查询的列表
+     * @createtime: 2018/2/18 12:33
+     * @param string $field
+     * @param array $where
+     * @param array $with
+     * @param string $foreachItem
+     * @return array
+     */
+    public function AutoSelect($field = "*", $where = [], $with = [], $foreachItem = ''){
+        if(!empty($with)){
+            $result = $this->field($field)->alias("a")->where($where)->with($with)->select()->toArray();
+        }else{
+            $result = $this->field($field)->where($where)->select()->toArray();
+        }
+        if($foreachItem instanceof \Closure){
+            $result = $foreachItem($result);
+        }
+        return $result;
     }
 }
