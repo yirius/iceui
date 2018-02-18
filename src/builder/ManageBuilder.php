@@ -108,7 +108,10 @@ class ManageBuilder extends IBuilder
      * @return string
      */
     function theme(){
-        return $this->render("manage/theme");
+        $theme = session("managerTheme");
+        return $this
+            ->assign("theme", $theme)
+            ->render("manage/theme");
     }
 
     /**

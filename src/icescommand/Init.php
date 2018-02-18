@@ -52,9 +52,9 @@ CREATE TABLE `ices_auth_group` (
   `list_order` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;");
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;");
         $output->comment("insert auth_rule default rows");
-        db()->query("INSERT INTO `ices_auth_rule` VALUES ('1', 'manage', '系统设置', 'wb-settings', '0', '1', '1', '', '2017-05-09 11:07:27', null, '99'), ('2', '/manage', '后台欢迎界面', null, '1', '3', '1', '', '2017-05-09 11:16:09', null, '0'), ('3', '/manage-setting', '网站设置', 'icon-cogs', '1', '2', '1', '', '2018-01-01 20:17:01', null, '0'), ('4', '/manage-setting-group', '角色设置', null, '3', '2', '1', '', null, null, '0');");
+        db()->query("INSERT INTO `ices_auth_rule` VALUES ('1', '/manage', '系统设置', 'wb-settings', '0', '1', '1', '', '2017-05-09 11:07:27', '2018-02-17 22:29:39', '1'), ('2', '/welcome', '后台欢迎界面', null, '1', '3', '1', '', '2017-05-09 11:16:09', null, '0'), ('3', '/icesui/setting', '框架设置', 'fa-bars', '1', '2', '1', '', '2018-01-01 20:17:01', '2018-02-17 11:07:45', '2'), ('4', '/icesui/setting/group', '角色设置', null, '3', '2', '1', '', '2018-01-27 15:45:42', '2018-02-17 11:07:45', '3'), ('5', '/icesui/setting/groupadd', '角色编辑', 'wb-settings', '4', '3', '1', '', '2018-02-18 13:19:02', '2018-02-18 13:19:04', '0'), ('6', '/icesui/setting/menu', '菜单设置', 'wb-settings', '3', '2', '1', '', '2018-01-19 14:54:18', '2018-02-17 11:07:45', '4'), ('7', '/icesui/setting/domenu', '菜单编辑', 'wb-settings', '6', '3', '1', '', '2018-02-18 13:20:15', '2018-02-18 13:20:16', '0'), ('8', '/icesui/setting/addtopmenu', '添加顶部菜单', 'wb-settings', '6', '3', '1', '', '2018-02-18 13:20:55', '2018-02-18 13:20:57', '0'), ('9', '/theme', '主题管理', 'wb-settings', '1', '3', '1', '', '2018-02-18 15:50:54', '2018-02-18 15:50:56', '0'), ('10', '/icesui/setting/users', '管理员设置', 'wb-settings', '3', '2', '1', '', '2018-02-18 12:20:28', '2018-02-18 12:20:30', '0'), ('11', '/icesui/setting/usersadd', '管理员编辑', 'wb-settings', '10', '3', '1', '', '2018-02-18 12:50:52', '2018-02-18 12:50:53', '0');");
         $output->comment("create auth_rule end, start create auth_user");
         db()->query('DROP TABLE IF EXISTS `ices_auth_user`;');
         db()->query("CREATE TABLE `ices_auth_user` (
@@ -73,7 +73,7 @@ CREATE TABLE `ices_auth_group` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;");
         $output->comment("insert auth_user default rows");
         db()->query(<<<EOF
-INSERT INTO `ices_auth_user` VALUES ('1', '12345678912', '12345678912', 'Test', '71dd07494c5ee54992a27746d547e25dee01bd97', '1', '123456', '2017-01-23 15:38:45', '2017-06-30 18:38:23', '0', '{\"navigationColor\":\"bg-green-600\",\"acrossFlag\":\"navbar-inverse\",\"menuTheme\":\"site-menubar-light\",\"menuDisplay\":\"site-menubar-unfold\",\"menuTxtIcon\":\"site-menubar-keep\",\"themeColor\":\"green\",\"tabFlag\":\"site-contabs-open\"}');
+INSERT INTO `ices_auth_user` VALUES ('1', '12345678912', '12345678912', 'Test', 'bcc24a4dc43058e660d8a5f5bd46702879948f5d', '1', '123456', '2017-01-23 15:38:45', '2017-06-30 18:38:23', '0', '{\"navigationColor\":\"bg-green-600\",\"acrossFlag\":\"navbar-inverse\",\"menuTheme\":\"site-menubar-light\",\"menuDisplay\":\"site-menubar-unfold\",\"menuTxtIcon\":\"site-menubar-keep\",\"themeColor\":\"green\",\"tabFlag\":\"site-contabs-open\"}');
 EOF
 );
         $output->comment("create successful");

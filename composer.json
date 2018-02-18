@@ -1,7 +1,7 @@
 {
     "name": "yirius/icesui",
     "description": "a new admin ui for tp5",
-    "version": "dev-master",
+    "version": "0.4",
     "type": "think-extend",
     "license": "MIT",
     "authors": [

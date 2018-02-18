@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="__ASSETS__/css/material-design.css">
-<link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.0.0/vendor/bootstrap-select/bootstrap-select.css">
+<link rel="stylesheet" href="__ASSETS__/vendor/select2/select2.css">
 <link rel="stylesheet" href="__ASSETS__/css/display.css">
 
 <div class="page animation-fade page-display">
@@ -11,79 +11,79 @@
                     <ul class="list-unstyled list-inline color-radio">
                         <li>
                             <div class="radio-custom radio-primary">
-                                <input type="radio" checked name="navigationColor" value="bg-blue-600">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-blue-600"}checked{/if} name="navigationColor" value="bg-blue-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-brown">
-                                <input type="radio"  name="navigationColor" value="bg-brown-600">
+                                <input type="radio"  {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-brown-600"}checked{/if} name="navigationColor" value="bg-brown-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-cyan">
-                                <input type="radio"  name="navigationColor" value="bg-cyan-600">
+                                <input type="radio"  {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-cyan-600"}checked{/if} name="navigationColor" value="bg-cyan-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-green">
-                                <input type="radio"  name="navigationColor" value="bg-green-600">
+                                <input type="radio"  {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-green-600"}checked{/if} name="navigationColor" value="bg-green-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-grey">
-                                <input type="radio"  name="navigationColor" value="bg-grey-600">
+                                <input type="radio"  {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-grey-600"}checked{/if} name="navigationColor" value="bg-grey-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-indigo">
-                                <input type="radio"  name="navigationColor" value="bg-indigo-600">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-indigo-600"}checked{/if} name="navigationColor" value="bg-indigo-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-orange">
-                                <input type="radio"  name="navigationColor" value="bg-orange-600">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-orange-600"}checked{/if} name="navigationColor" value="bg-orange-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-pink">
-                                <input type="radio"  name="navigationColor" value="bg-pink-600">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-pink-600"}checked{/if} name="navigationColor" value="bg-pink-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-purple">
-                                <input type="radio"  name="navigationColor" value="bg-purple-600">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-purple-600"}checked{/if} name="navigationColor" value="bg-purple-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-red">
-                                <input type="radio"  name="navigationColor" value="bg-red-600">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-red-600"}checked{/if} name="navigationColor" value="bg-red-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-teal">
-                                <input type="radio"  name="navigationColor" value="bg-teal-600">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-teal-600"}checked{/if} name="navigationColor" value="bg-teal-600">
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-yellow">
-                                <input type="radio"  name="navigationColor" value="bg-yellow-700">
+                                <input type="radio" {if !empty($theme['navigationColor']) && $theme['navigationColor'] == "bg-yellow-600"}checked{/if} name="navigationColor" value="bg-yellow-700">
                                 <label></label>
                             </div>
                         </li>
                     </ul>
                     <div class="checkbox-custom checkbox-primary margin-top-10">
-                        <input type="checkbox" checked id="navbarDisplay" name="acrossFlag" value="navbar-inverse">
+                        <input type="checkbox" {if !empty($theme['acrossFlag']) && $theme['acrossFlag'] == "navbar-inverse"}checked{/if} id="navbarDisplay" name="acrossFlag" value="navbar-inverse">
                         <label for="navbarDisplay">通栏显示</label>
                     </div>
                 </div>
@@ -91,10 +91,10 @@
             <hr>
             <div class="form-group">
                 <label class="col-sm-2 control-label">菜单主题：</label>
-                <div class="col-sm-10">
-                    <select id="skintoolsSidebar" name="menuTheme">
-                        <option value="site-menubar-dark" selected>深色主题</option>
-                        <option value="site-menubar-light" >浅色主题</option>
+                <div class="col-sm-4">
+                    <select id="skintoolsSidebar" name="menuTheme" data-plugin="select2">
+                        <option value="site-menubar-dark" {if !empty($theme['menuTheme']) && $theme['menuTheme'] == "site-menubar-dark"}selected{/if}>深色主题</option>
+                        <option value="site-menubar-light" {if !empty($theme['menuTheme']) && $theme['menuTheme'] == "site-menubar-light"}selected{/if}>浅色主题</option>
                     </select>
                 </div>
             </div>
@@ -102,11 +102,11 @@
                 <label class="col-sm-2 control-label">菜单显示：</label>
                 <div class="col-sm-10">
                     <div class="radio-inline radio-custom radio-primary">
-                        <input type="radio" id="menuUnfold" checked="checked" name="menuDisplay" value="site-menubar-unfold">
+                        <input type="radio" id="menuUnfold" name="menuDisplay" value="site-menubar-unfold" {if !empty($theme['menuDisplay']) && $theme['menuDisplay'] == "site-menubar-unfold"}checked="checked"{/if} >
                         <label for="menuUnfold">默认展开</label>
                     </div>
                     <div class="radio-inline radio-custom radio-primary">
-                        <input type="radio" id="menuFold"  name="menuDisplay" value="site-menubar-fold">
+                        <input type="radio" id="menuFold"  name="menuDisplay" value="site-menubar-fold" {if !empty($theme['menuDisplay']) && $theme['menuDisplay'] == "site-menubar-fold"}checked="checked"{/if}>
                         <label for="menuFold">默认收起</label>
                     </div>
                     <div class="margin-top-10 hidden" id="menuFoldSetting">
@@ -130,72 +130,72 @@
                     <ul class="list-unstyled list-inline color-radio">
                         <li>
                             <div class="radio-custom radio-primary">
-                                <input type="radio" checked name="themeColor" value="primary">
+                                <input type="radio" checked name="themeColor" value="primary" {if !empty($theme['themeColor']) && $theme['themeColor'] == "primary"}checked="checked"{/if}>
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-brown">
-                                <input type="radio"  name="themeColor" value="brown">
+                                <input type="radio"  name="themeColor" value="brown" {if !empty($theme['themeColor']) && $theme['themeColor'] == "brown"}checked="checked"{/if} >
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-cyan">
-                                <input type="radio"  name="themeColor" value="cyan">
+                                <input type="radio"  name="themeColor" value="cyan" {if !empty($theme['themeColor']) && $theme['themeColor'] == "cyan"}checked="checked"{/if} >
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-green">
-                                <input type="radio"  name="themeColor" value="green">
+                                <input type="radio"  name="themeColor" value="green" {if !empty($theme['themeColor']) && $theme['themeColor'] == "green"}checked="checked"{/if} >
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-grey">
-                                <input type="radio"  name="themeColor" value="grey"> <label></label>
+                                <input type="radio"  name="themeColor" value="grey" {if !empty($theme['themeColor']) && $theme['themeColor'] == "grey"}checked="checked"{/if} > <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-indigo">
-                                <input type="radio"  name="themeColor" value="indigo">
+                                <input type="radio"  name="themeColor" value="indigo" {if !empty($theme['themeColor']) && $theme['themeColor'] == "indigo"}checked="checked"{/if}>
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-orange">
-                                <input type="radio"  name="themeColor" value="orange">
+                                <input type="radio"  name="themeColor" value="orange" {if !empty($theme['themeColor']) && $theme['themeColor'] == "orange"}checked="checked"{/if}>
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-pink">
-                                <input type="radio"  name="themeColor" value="pink">
+                                <input type="radio"  name="themeColor" value="pink" {if !empty($theme['themeColor']) && $theme['themeColor'] == "pink"}checked="checked"{/if}>
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-purple">
-                                <input type="radio"  name="themeColor" value="purple">
+                                <input type="radio"  name="themeColor" value="purple" {if !empty($theme['themeColor']) && $theme['themeColor'] == "pruple"}checked="checked"{/if} >
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-red">
-                                <input type="radio"  name="themeColor" value="red">
+                                <input type="radio"  name="themeColor" value="red" {if !empty($theme['themeColor']) && $theme['themeColor'] == "red"}checked="checked"{/if}>
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-teal">
-                                <input type="radio"  name="themeColor" value="teal">
+                                <input type="radio"  name="themeColor" value="teal" {if !empty($theme['themeColor']) && $theme['themeColor'] == "teal"}checked="checked"{/if}>
                                 <label></label>
                             </div>
                         </li>
                         <li>
                             <div class="radio-custom radio-yellow">
-                                <input type="radio"  name="themeColor" value="yellow">
+                                <input type="radio"  name="themeColor" value="yellow" {if !empty($theme['themeColor']) && $theme['themeColor'] == "yellow"}checked="checked"{/if}>
                                 <label></label>
                             </div>
                         </li>
@@ -207,11 +207,11 @@
                 <label class="col-sm-2 control-label">Tab 页签：</label>
                 <div class="col-sm-10">
                     <div class="radio-inline radio-custom radio-primary">
-                        <input type="radio" id="tabDisplayShow" checked name="tabFlag" value="site-contabs-open">
+                        <input type="radio" id="tabDisplayShow" checked name="tabFlag" value="site-contabs-open" {if !empty($theme['tabFlag']) && $theme['tabFlag'] == "site-contabs-open"}checked="checked"{/if}>
                         <label for="tabDisplayShow">开启</label>
                     </div>
                     <div class="radio-inline radio-custom radio-primary">
-                        <input type="radio" id="tabDisplayHide"  name="tabFlag" value="">
+                        <input type="radio" id="tabDisplayHide"  name="tabFlag" value="" {if isset($theme['tabFlag']) && $theme['tabFlag'] == ""}checked="checked"{/if}>
                         <label for="tabDisplayHide">关闭</label>
                     </div>
                     <span class="help-block">Tab 页签必须保存以后才能看到效果</span>
@@ -228,6 +228,6 @@
     </div>
 </div>
 
-<script src="http://cdn.admui.com/demo/iframe/1.0.0/vendor/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="__ASSETS__/vendor/select2/select2.full.min.js"></script>
 <script src="__ASSETS__/js/icesui/app.js"></script>
 <script src="__ASSETS__/js/icesui/display.js"></script>

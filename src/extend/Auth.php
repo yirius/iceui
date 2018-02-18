@@ -65,6 +65,13 @@ class Auth
         return self::$instance;
     }
 
+    /**
+     * @title 判断当前用户是否可以打开当前url
+     * @description 判断当前用户是否可以打开当前url
+     * @createtime: 2018/2/18 15:31
+     * @param int $uid
+     * @return bool
+     */
     public function checkUrl($uid){
         $urlArray = explode("/", $this->request->baseUrl());
         if(empty($urlArray[0])){

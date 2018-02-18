@@ -23,6 +23,10 @@ class FormBuilder extends IBuilder
      */
     protected $formInputs = [];
 
+    /**
+     * add self input to this array
+     * @type array
+     */
     protected $formControls = [];
 
     /**
@@ -419,11 +423,11 @@ class FormBuilder extends IBuilder
      * @title 添加自定义控件
      * @description 添加自定义控件
      * @createtime: 2018/2/7 16:16
-     * @param string $html
-     * @param string $title
-     * @param string $name
-     * @param string $value
-     * @param array $config
+     * @param string $html 添加的控件对应的路径 true manage@index/test ''
+     * @param string $title 控件对应的标题 true 用户内部自定义 ''
+     * @param string $name 控件对应的input的name true 用户内部自定义 ''
+     * @param string $value 控件需要渲染的值 false '' ''
+     * @param array $config 自定义的其他控制属性
      * @return $this
      */
     public function addControl($html, $title, $name, $value = '', $config = []){

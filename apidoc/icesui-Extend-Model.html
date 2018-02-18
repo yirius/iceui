@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>apidoc</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                icesui\extend\Model [extend: think\Model]
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="col-xs-3">
+        <ul class="nav nav-pills nav-stacked" role="tablist">
+                            <li role="presentation" class="active">
+                    <a href="#icesui0" aria-controls="home" role="tab" data-toggle="tab">icesui\extend\Model::AutoTable</a>
+                </li>
+                            <li role="presentation" class="">
+                    <a href="#icesui1" aria-controls="home" role="tab" data-toggle="tab">icesui\extend\Model::AutoSave</a>
+                </li>
+                            <li role="presentation" class="">
+                    <a href="#icesui2" aria-controls="home" role="tab" data-toggle="tab">icesui\extend\Model::AutoDelete</a>
+                </li>
+                            <li role="presentation" class="">
+                    <a href="#icesui3" aria-controls="home" role="tab" data-toggle="tab">icesui\extend\Model::AutoSelect</a>
+                </li>
+                    </ul>
+    </div>
+    <div class="col-xs-9">
+        <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="icesui0">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">自动返回列表所需要的一系列参数</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>描述: </td>
+                                <td>自动返回列表所需要的一系列参数</td>
+                            </tr>
+                            <tr>
+                                <td>返回值: </td>
+                                                                <td>array</td>
+                            </tr>
+                                                        </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>名称</th>
+                                    <th>介绍</th>
+                                    <th>是否必须</th>
+                                    <th>默认值</th>
+                                    <th>可选参数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                                <tr>
+                                        <td>字符串</td>
+                                        <td>$field</td>
+                                        <td>传入的需要读取的字段</td>
+                                        <td>false</td>
+                                        <td>*</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>数组</td>
+                                        <td>$where</td>
+                                        <td>查询的数组条件</td>
+                                        <td>false</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>数组</td>
+                                        <td>$with</td>
+                                        <td>需要联合查询的表</td>
+                                        <td>false</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>字符串</td>
+                                        <td>$ordersort</td>
+                                        <td>排序的字段</td>
+                                        <td>false</td>
+                                        <td>id</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>字符串</td>
+                                        <td>$group</td>
+                                        <td>聚合查询的条件</td>
+                                        <td>false</td>
+                                        <td>null</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>字符串</td>
+                                        <td>$where_extra</td>
+                                        <td>字符串的自定义查询条件</td>
+                                        <td>false</td>
+                                        <td>''</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>\Closure</td>
+                                        <td>$eachFuns</td>
+                                        <td>针对于每一个数组的循环</td>
+                                        <td>false</td>
+                                        <td>null</td>
+                                        <td>''</td>
+                                    </tr>
+                                                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+                        <div role="tabpanel" class="tab-pane " id="icesui1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">自动保存数据</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>描述: </td>
+                                <td>自动保存数据的对应方法</td>
+                            </tr>
+                            <tr>
+                                <td>返回值: </td>
+                                                                <td></td>
+                            </tr>
+                                                        </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>名称</th>
+                                    <th>介绍</th>
+                                    <th>是否必须</th>
+                                    <th>默认值</th>
+                                    <th>可选参数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                                <tr>
+                                        <td>数组</td>
+                                        <td>$add</td>
+                                        <td>新增数据的数组</td>
+                                        <td>true</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>数组</td>
+                                        <td>$where</td>
+                                        <td>针对性的更新条件,如果没有传入,会自动判断网址是否存在主键</td>
+                                        <td>false</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>\Closure</td>
+                                        <td>$success</td>
+                                        <td>如果存在success是一个匿名函数,就执行,并以返回结果作为返回语句</td>
+                                        <td>false</td>
+                                        <td>null</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td></td>
+                                        <td>Validate|null</td>
+                                        <td>验证器,需要自己new出来</td>
+                                        <td>false</td>
+                                        <td>null</td>
+                                        <td>''</td>
+                                    </tr>
+                                                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+                        <div role="tabpanel" class="tab-pane " id="icesui2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">自动删除功能</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>描述: </td>
+                                <td>根据isDelete判断是否进行删除</td>
+                            </tr>
+                            <tr>
+                                <td>返回值: </td>
+                                                                <td></td>
+                            </tr>
+                                                        </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>名称</th>
+                                    <th>介绍</th>
+                                    <th>是否必须</th>
+                                    <th>默认值</th>
+                                    <th>可选参数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                                <tr>
+                                        <td>\Closure</td>
+                                        <td>$afterDelete</td>
+                                        <td>删除完成之后执行的数据</td>
+                                        <td>false</td>
+                                        <td>null</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>数组</td>
+                                        <td>$notDelete</td>
+                                        <td>指定不可删除的数据</td>
+                                        <td>false</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>数组</td>
+                                        <td>$ids</td>
+                                        <td>指定需要删除的数据,如果不存在从提交数据的ids参数里获取,在用逗号分隔</td>
+                                        <td>false</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>字符串</td>
+                                        <td>$pkField</td>
+                                        <td>指定需要删除的主键,默认为id</td>
+                                        <td>false</td>
+                                        <td>id</td>
+                                        <td>''</td>
+                                    </tr>
+                                                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+                        <div role="tabpanel" class="tab-pane " id="icesui3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">自动生成一个查询的列表</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>描述: </td>
+                                <td>自动生成一个查询的列表</td>
+                            </tr>
+                            <tr>
+                                <td>返回值: </td>
+                                                                <td>array</td>
+                            </tr>
+                                                        </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>名称</th>
+                                    <th>介绍</th>
+                                    <th>是否必须</th>
+                                    <th>默认值</th>
+                                    <th>可选参数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                                <tr>
+                                        <td>字符串</td>
+                                        <td>$field</td>
+                                        <td>需要查询的字段对应列表,最后数据应该为text/value</td>
+                                        <td>false</td>
+                                        <td>''</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>数组</td>
+                                        <td>$where</td>
+                                        <td>查询的条件</td>
+                                        <td>false</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>数组</td>
+                                        <td>$with</td>
+                                        <td>联合查询的条件</td>
+                                        <td>false</td>
+                                        <td>[]</td>
+                                        <td>''</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>\Closure</td>
+                                        <td>$foreachItem</td>
+                                        <td>闭包匿名函数进行每一个循环</td>
+                                        <td>false</td>
+                                        <td>null</td>
+                                        <td>''</td>
+                                    </tr>
+                                                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+                    </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

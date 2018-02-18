@@ -39,5 +39,7 @@ Route::group('icesui', function () {
 
 //加入console
 Console::addDefaultCommands([
-    "icesui\\icescommand\\Init"
+    "icesui\\icescommand\\Init",
+    "icesui\\icescommand\\Config",
+    "icesui\\icescommand\\Assets"
 ]);
