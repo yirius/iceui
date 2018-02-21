@@ -1,7 +1,7 @@
 {
     "name": "yirius/icesui",
     "description": "a new admin ui for tp5",
-    "version": "0.4",
+    "version": "0.5",
     "type": "think-extend",
     "license": "MIT",
     "authors": [
@@ -22,7 +22,7 @@
     "require": {
         "topthink/think-helper": ">=1.0.4",
         "topthink/think-installer": ">=1.0.10",
-        "topthink/think-captcha": "^2.0"
+        "topthink/think-captcha": ">=2.0"
     },
     "extra": {}
 }

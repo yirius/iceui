@@ -68,7 +68,7 @@
             }
             $.post("", {text: name, name: url, status: status, icon: icon, list_order: menu_listorder}, function(data){
                 if(data.code == 1){
-                    if({:input("param.id")}){
+                    if({:input("param.id", 0)}){
                         toastr.success("修改成功,请重新打开界面");
                     }else{
                         toastr.success("添加成功,请重新打开界面");
