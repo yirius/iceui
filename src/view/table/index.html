@@ -29,21 +29,28 @@
     {include file="$_icesAsidePath" /}
     <div class="page-main">
         <div class="page-content">
+            {if !empty($_icesPanel['title']) || !empty($_icesPanel['header'])}
             <div class="page-header">
                 <h1 class="page-title">{$_icesPanel['title']|default=''}</h1>
                 <div class="page-header-actions">
                     {notempty name="_icesPanel['header']"}
-                        {:htmlspecialchars_decode($_icesPanel['header'])}
+                    {:htmlspecialchars_decode($_icesPanel['header'])}
                     {/notempty}
                 </div>
             </div>
+            {/if}
             <div class="panel">
                 {if !empty($_icesFormInputs) }
-                <div class="row">
-                    <div class="col-xs-12">
-                        {include file="form/include" /}
+                <form id="searchForm" class="container-fluid" method="post" action="">
+                    <div class="row" style="padding-top: 10px;">
+                        <div class="col-xs-12">
+                            {include file="form/include" /}
+                        </div>
                     </div>
-                </div>
+                    <div class="row" style="padding: 10px 10px 0 10px;">
+                        <button class="btn btn-success col-xs-12 col-md-2 pull-right">提交</button>
+                    </div>
+                </form>
                 {/if}
                 <div class="panel-body">
                     <table class="table table-bordered table-hover dataTable table-striped width-full text-nowrap page-data-tables" id="icesdataTable">
@@ -61,7 +68,7 @@
         }
 
         /** 每一列显示的参数 需要把function转换出来**/
-        var columns = {:json_encode($_icesTableColumns)};
+        var columns = {:json_encode($_icesTableColumns)}, searchFormData = {};
         for(var column in columns){
             if(typeof columns[column]['render'] != "undefined"){
                 columns[column]['render'] = eval("(function(){return function(data, type, objects, setting){"+columns[column]['render']+"} })()");
@@ -74,7 +81,7 @@
             "serverSide": true,
             'responsive': true,
             'dom': '<"row"<"col-xs-6"<"dt-dom-toolbar"><"hidden-xs"l>><"col-xs-6"f<"pull-right"B>>>' + '<"row"<"col-xs-12"tr>>' + '<"row"<"col-sm-5"i><"col-sm-7"p>>',
-            'order': [[0,'desc']],
+            'order': [[{if empty($_icesTableColumnsDetail)}0{else/}1{/if},'desc']],
             buttons: {
                 dom: {
                     container: {
@@ -107,7 +114,8 @@
                         order: data.order[0].dir,
                         start: data.start,
                         length: data.length,
-                        search: data.search.value
+                        search: data.search.value,
+                        data: searchFormData
                     };
                 }
             },
@@ -192,6 +200,16 @@
                     });
                 });
             }
+        });
+
+        $("#searchForm").submit(function(e){
+            e.preventDefault();
+            var data = $(this).serializeArray();
+            searchFormData = {};
+            for(var i in data){
+                searchFormData[data[i].name] = data[i].value;
+            }
+            table.ajax.reload();
         });
 
         App.run();
