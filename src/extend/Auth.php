@@ -266,7 +266,7 @@ class Auth
                 ['status', '=', 1],
                 ['id', 'in', $rule]
             ];
-        $list = db($this->config['auth_rule'])->where($where)->order('parentid asc,list_order desc')->select();
+        $list = db($this->config['auth_rule'])->where($where)->order('parentid asc,list_order asc')->select();
         $topMenus = [];
         $sideMenus = [];
         $sideMenusEach = [];

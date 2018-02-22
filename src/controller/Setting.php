@@ -178,16 +178,28 @@ HTML
                             'list_order' => $listOrder
                         ]);
                     }else{
-                        $saveAll[] = [
-                            'id' => $value['id'],
-                            'parentid' => $pid,
-                            'status' => $value['status'],
-                            'type' => $value['type'],
-                            'icon' => $value['icon'],
-                            'name' => $value['name'],
-                            'text' => $value['text'],
-                            'list_order' => $listOrder
-                        ];
+                        if(!empty($value['id'])){
+                            $saveAll[] = [
+                                'id' => $value['id'],
+                                'parentid' => $pid,
+                                'status' => $value['status'],
+                                'type' => $value['type'],
+                                'icon' => $value['icon'],
+                                'name' => $value['name'],
+                                'text' => $value['text'],
+                                'list_order' => $listOrder
+                            ];
+                        }else{
+                            $saveAll[] = [
+                                'parentid' => $pid,
+                                'status' => $value['status'],
+                                'type' => $value['type'],
+                                'icon' => $value['icon'],
+                                'name' => $value['name'],
+                                'text' => $value['text'],
+                                'list_order' => $listOrder
+                            ];
+                        }
                     }
                     $listOrder++;
                 }

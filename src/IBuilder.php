@@ -249,6 +249,16 @@ class IBuilder
     }
 
     /**
+     * @title 获取到所有需要连接的资源文件
+     * @description 获取到所有需要连接的资源文件
+     * @createtime: 2018/2/22 13:30
+     * @return mixed
+     */
+    public function getLinks(){
+        return $this->config['links'];
+    }
+
+    /**
      * @title 获取资源文件的列表
      * @description 获取资源文件,可以直接访问icesui/assets/vendor/jquery/jquery.min.js来获取
      * @createtime: 2018/1/9 23:27

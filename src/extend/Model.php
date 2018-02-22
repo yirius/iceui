@@ -50,12 +50,13 @@ class Model extends \think\Model
                 $where[$search_fields] = array("like","%".$searchtext."%");
         }
 
+        $_this = $this;
         //如果存在联表查询,就先绑定a
         if(!empty($with)){
-            $this->alias('a')->join($with);
+            $_this = $this->alias('a')->join($with);
         }
 
-        $paginate = $this
+        $paginate = $_this
             ->where($where)
             ->where($where_extra)
             ->field($field)

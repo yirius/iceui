@@ -91,6 +91,9 @@ class TableBuilder extends IBuilder
     public function setSearchForm(FormBuilder $formBuilder){
         $this->_icesFormInputs = $formBuilder->getFormInputs();
         $this->_icesFormControls = $formBuilder->getFormControl();
+        foreach($formBuilder->getLinks() as $i => $v){
+            $this->addLinks($v, $i);
+        }
         return $this;
     }
 
