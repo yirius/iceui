@@ -101,6 +101,7 @@ $(document).ready(function(){
         $.post(icesConfig.url + "/icesui/setting/doMenu", {data: json}, function(data){
             if(data.code == 1){
                 toastr.success(data.msg);
+                location.reload();
             }else{
                 toastr.error(data.msg);
             }

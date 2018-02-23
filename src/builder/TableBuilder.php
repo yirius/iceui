@@ -43,7 +43,7 @@ class TableBuilder extends IBuilder
      * @param string $defaultcontent 默认的内容 false '' ''
      * @return \icesui\Builder\TableBuilder
      */
-    public function addTableColmun($title, $name = null, $sortble = true, $render = null, $width = null, $class = null, $defaultcontent = null){
+    public function addTableColmun($title, $name = null, $sortble = false, $render = null, $width = null, $class = null, $defaultcontent = null){
         $temp = [
             'title' => $title,
             'data' => $name,

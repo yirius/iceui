@@ -123,6 +123,46 @@ HTML
             ->render("setting/menu");
     }
 
+    protected function _getAllMenu(AuthRule $authRule, $parentId, $val, $listOrder, &$saveAll){
+        if(empty($val['id'])){
+            $pid = $authRule->insertGetId([
+                'parentid' => $parentId,
+                'status' => $val['status'],
+                'type' => $val['type'],
+                'icon' => $val['icon'],
+                'name' => $val['name'],
+                'text' => $val['text'],
+                'list_order' => $listOrder
+            ]);
+        }else{
+            if(!empty($val['id'])){
+                $saveAll[] = [
+                    'id' => $val['id'],
+                    'parentid' => $parentId,
+                    'status' => $val['status'],
+                    'type' => $val['type'],
+                    'icon' => $val['icon'],
+                    'name' => $val['name'],
+                    'text' => $val['text'],
+                    'list_order' => $listOrder
+                ];
+                $pid = $val['id'];
+            }else{
+                $saveAll[] = [
+                    'parentid' => $parentId,
+                    'status' => $val['status'],
+                    'type' => $val['type'],
+                    'icon' => $val['icon'],
+                    'name' => $val['name'],
+                    'text' => $val['text'],
+                    'list_order' => $listOrder
+                ];
+                $pid = $parentId;
+            }
+        }
+        return $pid;
+    }
+
     public function doMenu(){
         $post = input('post.data');
         $data = json_decode($post, true);
@@ -142,66 +182,15 @@ HTML
             $parentId = $v['id'];
             $listOrder++;
             foreach($v['children'] as $j => $val){
-                if(empty($val['id'])){
-                    $pid = $authRule->insertGetId([
-                        'parentid' => $parentId,
-                        'status' => $val['status'],
-                        'type' => $val['type'],
-                        'icon' => $val['icon'],
-                        'name' => $val['name'],
-                        'text' => $val['text'],
-                        'list_order' => $listOrder
-                    ]);
-                }else{
-                    $saveAll[] = [
-                        'id' => $val['id'],
-                        'parentid' => $parentId,
-                        'status' => $val['status'],
-                        'type' => $val['type'],
-                        'icon' => $val['icon'],
-                        'name' => $val['name'],
-                        'text' => $val['text'],
-                        'list_order' => $listOrder
-                    ];
-                    $pid = $val['id'];
-                }
+                $pid = $this->_getAllMenu($authRule, $parentId, $val, $listOrder, $saveAll);
                 $listOrder++;
                 foreach($val['children'] as $k => $value){
-                    if(empty($val['id'])){
-                        $authRule->insertGetId([
-                            'parentid' => $pid,
-                            'status' => $value['status'],
-                            'type' => $value['type'],
-                            'icon' => $value['icon'],
-                            'name' => $value['name'],
-                            'text' => $value['text'],
-                            'list_order' => $listOrder
-                        ]);
-                    }else{
-                        if(!empty($value['id'])){
-                            $saveAll[] = [
-                                'id' => $value['id'],
-                                'parentid' => $pid,
-                                'status' => $value['status'],
-                                'type' => $value['type'],
-                                'icon' => $value['icon'],
-                                'name' => $value['name'],
-                                'text' => $value['text'],
-                                'list_order' => $listOrder
-                            ];
-                        }else{
-                            $saveAll[] = [
-                                'parentid' => $pid,
-                                'status' => $value['status'],
-                                'type' => $value['type'],
-                                'icon' => $value['icon'],
-                                'name' => $value['name'],
-                                'text' => $value['text'],
-                                'list_order' => $listOrder
-                            ];
-                        }
-                    }
+                    $_pid = $this->_getAllMenu($authRule, $pid, $value, $listOrder, $saveAll);
                     $listOrder++;
+                    foreach($value['children'] as $l => $values){
+                        $__pid = $this->_getAllMenu($authRule, $_pid, $values, $listOrder, $saveAll);
+                        $listOrder++;
+                    }
                 }
             }
         }
