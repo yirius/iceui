@@ -4,7 +4,7 @@
         {foreach name="_icesRender['config']['options']" key="options_i" item="options_val"}
             <li>
                 <div class="checkbox-custom checkbox-primary">
-                    <input type="checkbox" id="ices{$_icesRender['name']}{$options_i}" name="ices{$_icesRender['name']}[]"  {if !empty($options_val['disabled'])}disabled='disabled'{/if} value="{$options_val['value']}" {if in_array($options_val['value'], $_icesRender['value'])}checked{/if}>
+                    <input type="checkbox" id="ices{$_icesRender['name']}{$options_i}" name="{$_icesRender['name']}[]"  {if !empty($options_val['disabled'])}disabled='disabled'{/if} value="{$options_val['value']}" {if in_array($options_val['value'], $_icesRender['value'])}checked{/if}>
                     <label for="ices{$_icesRender['name']}{$options_i}">{$options_val['text']}</label>
                 </div>
             </li>
