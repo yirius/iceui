@@ -76,8 +76,8 @@
         }
 
         /** 初始化dt **/
-        var icesTableSelected = [];
-        var table = $('#icesdataTable').DataTable($.po('dataTable', {
+        var icesTableSelected = [], icesTable = $('#icesdataTable');
+        var table = icesTable.DataTable($.po('dataTable', {
             "serverSide": true,
             'responsive': true,
             'dom': '<"row"<"col-xs-6"<"dt-dom-toolbar"><"hidden-xs"l>><"col-xs-6"f<"pull-right"B>>>' + '<"row"<"col-xs-12"tr>>' + '<"row"<"col-sm-5"i><"col-sm-7"p>>',
@@ -136,15 +136,27 @@
         }).on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
+            var isRespones = table.responsive.hasHidden();//判断是否在缩放状态
             if (row.child.isShown()) {
                 // 本行已展开
-                row.child.hide();
-                tr.removeClass('shown');
+                if(isRespones){
+                    var Resps = icesTable.find("tbody>tr[class='child'] ul");
+                    if(Resps){
+                        Resps.parent().append(format(row.data()));
+                    }
+                }else{
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
             }
             else {
-                // 展开本行
-                row.child(format(row.data())).show();
-                tr.addClass('shown');
+                if(isRespones){
+                    //如果是缩放那就直接关闭
+                }else{
+                    // 展开本行
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
             }
         }).on('mouseover', 'td', function () {
             if(!table.cell(this).index())
@@ -161,6 +173,9 @@
         $(".dt-dom-toolbar").html('{:htmlspecialchars_decode($_icesTableBtn)}');
 
         $('#icesdataTable tbody').on('click', 'tr', function () {
+            if(!table.row(this).data()){
+                return;
+            }
             var id = table.row(this).data().id;
             var index = $.inArray(id, icesTableSelected);
 
