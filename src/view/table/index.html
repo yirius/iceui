@@ -77,7 +77,7 @@
 
         /** 初始化dt **/
         var icesTableSelected = [], icesTable = $('#icesdataTable');
-        var table = icesTable.DataTable($.po('dataTable', {
+        var table = window.dataTable = icesTable.DataTable($.po('dataTable', {
             "serverSide": true,
             'responsive': true,
             'dom': '<"row"<"col-xs-6"<"dt-dom-toolbar"><"hidden-xs"l>><"col-xs-6"f<"pull-right"B>>>' + '<"row"<"col-xs-12"tr>>' + '<"row"<"col-sm-5"i><"col-sm-7"p>>',
