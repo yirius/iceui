@@ -1,7 +1,8 @@
 <div class="form-group {$_icesRender['config']['class']}">
     {php}if(empty($_icesRender['value'])) $_icesRender['value'] = [];{/php}
     <label class="control-label" for="ices{$_icesRender['name']}">{$_icesRender['title']}</label>
-    <select class="form-control" name="{$_icesRender['name']}" data-placeholder="{$_icesRender['config']['placeholder']}" data-plugin="select2" {if $_icesRender['config']['multiple']}multiple{/if}>
+    <select class="form-control" name="{$_icesRender['name']}" id="ices{$_icesRender['name']}"
+data-placeholder="{$_icesRender['config']['placeholder']}" data-plugin="select2" {if $_icesRender['config']['multiple']}multiple{/if}>
         {foreach name="_icesRender['config']['options']" key="options_i" item="options_val"}
             {if !empty($options_val[0])&&is_array($options_val[0])}
                 <optgroup label="{$options_i}">

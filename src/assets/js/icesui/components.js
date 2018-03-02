@@ -1565,6 +1565,8 @@
     _0x5d00f7.components.register('select2', {
         'mode': 'default',
         'defaults': {
+            placeholder: '--请选择--',
+            allowClear: true,
             'width': 'style',
             'language': 'zh-CN'
         }

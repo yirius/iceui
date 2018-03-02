@@ -244,7 +244,7 @@ class IBuilder
         }else{
             $this->config['links'][$type][] = $files;
         }
-        array_unique($this->config['links'][$type]);
+        $this->config['links'][$type] = array_unique($this->config['links'][$type]);
         return $this;
     }
 
