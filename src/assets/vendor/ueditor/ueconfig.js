@@ -3,6 +3,8 @@
  */
 $(document).ready(function(){
     $("[data-plugin='ueditor']").each(function(){
-        var ue = UE.getEditor(this);
+        !(function(obj){
+            UE.getEditor(obj.id);
+        })(this);
     });
 });
