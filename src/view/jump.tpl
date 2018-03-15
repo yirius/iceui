@@ -47,8 +47,16 @@
 </div>
 </body>
 <script>
+    var doApp = null;
+    window.onDeviceOneLoaded = function(){
+        doApp = sm("do_App");
+    };
     $(document).on('click', '#closeTab', function() {
-        $.site.contentTabs.closeTab(parent.$("#admui-siteConTabs").find("ul").find(".active"));
+        if(doApp == null){
+            $.site.contentTabs.closeTab(parent.$("#admui-siteConTabs").find("ul").find(".active"));
+        }else{
+            doApp.closePage();
+        }
     });
 </script>
 </html>
