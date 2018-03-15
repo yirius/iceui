@@ -58,5 +58,10 @@
             doApp.closePage();
         }
     });
+    $(document).ready(function(){
+        if(typeof $.site == "undefined"){
+            $("#closeTab").hide();
+        }
+    });
 </script>
 </html>
