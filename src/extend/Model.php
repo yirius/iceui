@@ -56,6 +56,7 @@ class Model extends \think\Model
         //如果存在联表查询,就先绑定a
         if(!empty($with)){
             $_this = $this->alias('a')->join($with);
+            $sort = "a.".$sort;
         }
         /**
          * 如果需要加上缓存, 就直接加上
