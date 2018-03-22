@@ -34,9 +34,11 @@ class Model extends \think\Model
      * @param string $group 聚合查询的条件 false null ''
      * @param string $where_extra 字符串的自定义查询条件 false '' ''
      * @param \Closure $eachFuns 针对于每一个数组的循环 false null ''
+     * @param null|int $cacheName 是否需要数据的缓存 false null ''
+     * @param null|int $cacheSeconds 是否需要数据的缓存,需要的话写上时间 false null ''
      * @return array
      */
-    public function AutoTable($field = "*", $where = [], $with = [], $ordersort = "id", $group = null, $where_extra = "", $eachFuns = null){
+    public function AutoTable($field = "*", $where = [], $with = [], $ordersort = "id", $group = null, $where_extra = "", $eachFuns = null, $cacheName = null, $cacheSeconds = 0){
 
         //开始接受ajax过来的table
         $order = input("post.order", "desc");
@@ -54,6 +56,12 @@ class Model extends \think\Model
         //如果存在联表查询,就先绑定a
         if(!empty($with)){
             $_this = $this->alias('a')->join($with);
+        }
+        /**
+         * 如果需要加上缓存, 就直接加上
+         */
+        if(!empty($cacheName)){
+            $_this = $_this->cache($cacheName, $cacheSeconds);
         }
 
         $paginate = $_this
