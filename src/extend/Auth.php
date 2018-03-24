@@ -309,14 +309,6 @@ class Auth
                 $sideMenus[$topInfo['name']]['subs'][] = &$sideMenusEach[$i];
             }
         }
-        /**
-         * 判断一下,因为总需要给用户一个权限, 该权限是用来看见启动页的, 但是这部分用户又不能看到系统设置项
-         */
-        foreach($topMenus as $i => $v){
-            if(empty($sideMenus[$v['name']])){
-                unset($topMenus[$i]);
-            }
-        }
         return [
             'topMenus' => $topMenus,
             'sideMenus' => $sideMenus
