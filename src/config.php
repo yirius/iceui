@@ -45,5 +45,13 @@ return [
         'afterUpload' => function($data){
 
         }
+    ],
+    'auth' => [
+        'auth_on' => 1, // 权限开关
+        'auth_type' => 1, // 认证方式，1为实时认证；2为登录认证。
+        'auth_group' => 'ices_auth_group', // 用户组数据表名
+        'auth_group_access' => 'ices_auth_group_access', // 用户-用户组关系表
+        'auth_rule' => 'ices_auth_rule', // 权限规则表
+        'auth_user' => 'ices_auth_user', // 用户信息表
     ]
 ];
