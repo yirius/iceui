@@ -24,58 +24,77 @@ class Model extends \think\Model
     protected $disabled_id = [];
 
     /**
+     * @title 私有方法, 获取到所有提交过来的参数
+     * @description
+     * @createtime: 2018/3/22 16:07
+     * @param $defaultOrder
+     * @param null $defaultSearchField
+     * @return array
+     */
+    protected function _checkParam($defaultOrder, $defaultSearchField = null){
+        $config = [];
+        $config['order'] = input("post.order", "desc");
+        $config['limit'] = input("post.length", 10);
+        $config['page'] = input("post.start", 0)/$config['limit'] + 1;
+        $config['sort'] = input("post.sort", $defaultOrder);
+        $config['where'] = [];
+        if($searchtext = input("post.search", null)){
+            if(!empty($defaultSearchField)){
+                $config['where'][$defaultSearchField] = [$defaultSearchField, "like","%".$searchtext."%"];
+            }
+        }
+        return $config;
+    }
+
+    /**
      * @title 自动返回列表所需要的一系列参数
      * @description 自动返回列表所需要的一系列参数
      * @createtime: 2018/2/18 15:36
      * @param string $field 传入的需要读取的字段 false * ''
      * @param array $where 查询的数组条件 false [] ''
      * @param array $with 需要联合查询的表 false [] ''
-     * @param string $ordersort 排序的字段 false id ''
+     * @param string $defaultOrder 排序的字段 false id ''
      * @param string $group 聚合查询的条件 false null ''
      * @param string $where_extra 字符串的自定义查询条件 false '' ''
      * @param \Closure $eachFuns 针对于每一个数组的循环 false null ''
-     * @param null|int $cacheName 是否需要数据的缓存 false null ''
-     * @param null|int $cacheSeconds 是否需要数据的缓存,需要的话写上时间 false null ''
      * @return array
      */
-    public function AutoTable($field = "*", $where = [], $with = [], $ordersort = "id", $group = null, $where_extra = "", $eachFuns = null, $cacheName = null, $cacheSeconds = 0){
+    public function AutoTable($field = "*", $where = [], $with = [], $defaultOrder = "id", $group = null, $where_extra = "", $eachFuns = null){
 
-        //开始接受ajax过来的table
-        $order = input("post.order", "desc");
-        $limit = input("post.length", 10);
-        $offset = input("post.start", 0)/$limit + 1;
-        //判断sort
-        $sort = input("post.sort", $ordersort);
-
-        if($searchtext = input("post.search", null)){
-            if(!empty($search_fields))
-                $where[$search_fields] = array("like","%".$searchtext."%");
-        }
+        /**
+         * 通过公共方法获取到所有提交过来的配置参数
+         */
+        $config = $this->_checkParam($defaultOrder);
 
         $_this = $this;
-        //如果存在联表查询,就先绑定a
+        /**
+         * 获取到关联的表
+         */
         if(!empty($with)){
             $_this = $this->alias('a')->join($with);
-            $sort = "a.".$sort;
-        }
-        /**
-         * 如果需要加上缓存, 就直接加上
-         */
-        if(!empty($cacheName)){
-            $_this = $_this->cache($cacheName, $cacheSeconds);
+            if(!strpos($config['sort'], '.')){
+                $config['sort'] = "a.".$config['sort'];
+            }
         }
 
+        /**
+         * 拼接数组
+         */
         $paginate = $_this
             ->where($where)
             ->where($where_extra)
             ->field($field)
-            ->order($sort." ".$order)
+            ->order($config['sort']." ".$config['order'])
             ->group($group)//todo group在当前情况下会存在分页输出错误
-            ->paginate($limit, false, [
-                'page' => $offset
+            ->paginate($config['limit'], false, [
+                'page' => $config['page']
             ]);
 
         $count = $paginate->total();
+
+        /**
+         * 如果存在所有的数据, 并且存在循环, 就进行一次循环
+         */
         if($eachFuns instanceof \Closure){
             $paginate->each($eachFuns);
         }
@@ -85,6 +104,87 @@ class Model extends \think\Model
             "recordsTotal" => $count,
             "recordsFiltered" => $count,
             "data" => $list
+        ];
+    }
+
+    /**
+     * @title 自动获取到app对应的listview数据
+     * @description 自动获取到app对应的listview数据
+     * @createtime: 2018/3/22 16:19
+     * @param string $field 传入的需要读取的字段 false * ''
+     * @param array $where 查询的数组条件 false [] ''
+     * @param array $with 需要联合查询的表 false [] ''
+     * @param \Closure $eachFuns 针对于每一个数组的循环 false null ''
+     * @param array $defaultConfig 其他配置参数 false [] 'defaultOrder|group|cachename|cacheSeconds'
+     * @return array
+     */
+    public function AutoAppList($field = "*", $where = [], $with = [], $eachFuns = null, $defaultConfig = []){
+        /**
+         * 处理一下获取到的基础配置
+         */
+        $defaultConfig = array_merge([
+            "defaultOrder" => "id",
+            "group" => null,
+            "cacheName" => null,
+            "cacheSeconds" => 0
+        ], $defaultConfig);
+        /**
+         * 基类方法获取到配置
+         */
+        $config = $this->_checkParam($defaultConfig['defaultOrder']);
+
+        $_this = $this;
+        /**
+         * 获取到关联的表
+         */
+        if(!empty($with)){
+            $_this = $this->alias('a')->join($with);
+            if(!strpos($config['sort'], '.')){
+                $config['sort'] = "a.".$config['sort'];
+            }
+        }
+
+        /**
+         * 如果存在缓存配置
+         */
+        if(!empty($defaultConfig['cacheName']) && !empty($defaultConfig['cacheSeconds'])){
+            $_this->cache($defaultConfig['cacheName'], $defaultConfig['cacheSeconds']);
+        }
+
+        /**
+         * 获取到列表
+         */
+        $select = $_this
+            ->field($field)
+            ->where($where)
+            ->order($config['sort']." ".$config['order'])
+            ->group($defaultConfig['group'])
+            ->page($config['page'], $config['limit'])
+            ->select();
+
+        /**
+         * 去掉其他配置, 获取总数
+         */
+        if(!empty($defaultConfig['cacheName']) && !empty($defaultConfig['cacheSeconds'])){
+            $_this->cache($defaultConfig['cacheName']."_count", $defaultConfig['cacheSeconds']);
+        }
+        $count = $_this
+            ->where($where)
+            ->order($config['sort']." ".$config['order'])
+            ->group($defaultConfig['group'])
+            ->count();
+
+        /**
+         * 如果有循环就写出来
+         */
+        if(!empty($eachFuns)){
+            $select->each($eachFuns);
+        }
+
+        return [
+            "recordsTotal" => $count,
+            "recordsFiltered" => $count,
+            "data" => $select->toArray()
         ];
     }
 
