@@ -21,12 +21,16 @@ use icesui\model\AuthUser;
 class Setting extends MgController
 {
     /**
-     * @title group
-     * @description
+     * @title 找到用户所有的角色
+     * @description 找到用户所有的角色
      * @createtime: 2018/2/18 12:20
      * @return array|string
      */
     public function group(){
+        if($this->request->isDelete()){
+            $authgroup = new AuthGroup();
+            return $authgroup->AutoDelete(null, [1]);
+        }
         if($this->request->isPost()){
             $authgroup = new AuthGroup();
             return $authgroup->AutoTable();
@@ -55,6 +59,13 @@ HTML
             ->table();
     }
 
+    /**
+     * @title 添加用户对应的角色
+     * @description 添加用户对应的角色
+     * @createtime: 2018/3/24 18:51
+     * @param int $id
+     * @return string
+     */
     public function groupadd($id = 0){
         $authGroup = new AuthGroup();
         if($this->request->isPost()){
@@ -63,7 +74,7 @@ HTML
                 $post['rules'] = "all";
             }
             unset($post['isall']);
-            $authGroup->AutoSave($post);
+            $authGroup->AutoSave($post, $id==0?[]:['id' => $id]);
         }
         $value = $id == 0?[]:$authGroup->where('id', $id)->find();
 
@@ -88,6 +99,13 @@ HTML
             ->form();
     }
 
+    /**
+     * @title 菜单设置
+     * @description 菜单设置
+     * @createtime: 2018/3/24 18:53
+     * @param int $id
+     * @return string
+     */
     public function menu($id = 0){
         if($this->request->isDelete()){
             if($id == 0){
@@ -123,46 +141,12 @@ HTML
             ->render("setting/menu");
     }
 
-    protected function _getAllMenu(AuthRule $authRule, $parentId, $val, $listOrder, &$saveAll){
-        if(empty($val['id'])){
-            $pid = $authRule->insertGetId([
-                'parentid' => $parentId,
-                'status' => $val['status'],
-                'type' => $val['type'],
-                'icon' => $val['icon'],
-                'name' => $val['name'],
-                'text' => $val['text'],
-                'list_order' => $listOrder
-            ]);
-        }else{
-            if(!empty($val['id'])){
-                $saveAll[] = [
-                    'id' => $val['id'],
-                    'parentid' => $parentId,
-                    'status' => $val['status'],
-                    'type' => $val['type'],
-                    'icon' => $val['icon'],
-                    'name' => $val['name'],
-                    'text' => $val['text'],
-                    'list_order' => $listOrder
-                ];
-                $pid = $val['id'];
-            }else{
-                $saveAll[] = [
-                    'parentid' => $parentId,
-                    'status' => $val['status'],
-                    'type' => $val['type'],
-                    'icon' => $val['icon'],
-                    'name' => $val['name'],
-                    'text' => $val['text'],
-                    'list_order' => $listOrder
-                ];
-                $pid = $parentId;
-            }
-        }
-        return $pid;
-    }
-
+    /**
+     * @title 提交过来了一整份菜单
+     * @description
+     * @createtime: 2018/3/24 18:54
+     * @throws \Exception
+     */
     public function doMenu(){
         $post = input('post.data');
         $data = json_decode($post, true);
@@ -176,8 +160,7 @@ HTML
                 'type' => $v['type'],
                 'icon' => $v['icon'],
                 'name' => $v['name'],
-                'text' => $v['text'],
-                'list_order' => $listOrder
+                'text' => $v['text']
             ];
             $parentId = $v['id'];
             $listOrder++;
@@ -201,12 +184,22 @@ HTML
             $this->error("更新出现了问题");
     }
 
+    /**
+     * @title 添加顶部菜单
+     * @description 添加顶部菜单
+     * @createtime: 2018/3/24 18:56
+     * @param int $id
+     * @return string
+     */
     public function addTopMenu($id = 0){
         $authRule = new AuthRule();
         if($this->request->isPost()){
             $post = input('post.');
             if(empty($post['name'])){
                 $this->error("菜单网址必须填写");
+            }
+            if(strpos($post['name'], "/")){
+                $this->error("顶部菜单对应网址不可出现斜杠/");
             }
             if(empty($post['text'])){
                 $this->error("菜单名称必须填写");
@@ -233,7 +226,20 @@ HTML
             ->render("setting/addtopmenu");
     }
 
+    /**
+     * @title 后台登录用户列表
+     * @description 后台登录用户列表
+     * @createtime: 2018/3/24 18:59
+     * @return array|string|void
+     */
     public function users(){
+        /**
+         * 判断一下权限, 如果是删除, 那么第一个用户是无法删除的
+         */
+        if($this->request->isDelete()){
+            $authUser = new AuthUser();
+            return $authUser->AutoDelete(null, [1]);
+        }
         if($this->request->isPost()){
             $authUser = new AuthUser();
             return $authUser->AutoTable('id,realname,username,phone');
@@ -256,6 +262,13 @@ HTML
             ->table();
     }
 
+    /**
+     * @title 用户权限修改或新增
+     * @description 用户权限修改或新增
+     * @createtime: 2018/3/24 19:02
+     * @param int $id
+     * @return string
+     */
     public function usersadd($id = 0){
         $authUser = new AuthUser();
         if($this->request->isPost()){
@@ -294,5 +307,56 @@ HTML
             ->addText("密码(留空为不修改)", "password")
             ->addSelect("对应角色", "group_id", $groupList)
             ->form();
+    }
+
+    /**
+     * @title 获取到所有的菜单
+     * @description 获取到所有的菜单
+     * @createtime: 2018/3/24 18:53
+     * @param AuthRule $authRule
+     * @param $parentId
+     * @param $val
+     * @param $listOrder
+     * @param $saveAll
+     * @return int|string
+     */
+    protected function _getAllMenu(AuthRule $authRule, $parentId, $val, $listOrder, &$saveAll){
+        if(empty($val['id'])){
+            $pid = $authRule->insertGetId([
+                'parentid' => $parentId,
+                'status' => $val['status'],
+                'type' => $val['type'],
+                'icon' => $val['icon'],
+                'name' => $val['name'],
+                'text' => $val['text'],
+                'list_order' => $listOrder
+            ]);
+        }else{
+            if(!empty($val['id'])){
+                $saveAll[] = [
+                    'id' => $val['id'],
+                    'parentid' => $parentId,
+                    'status' => $val['status'],
+                    'type' => $val['type'],
+                    'icon' => $val['icon'],
+                    'name' => $val['name'],
+                    'text' => $val['text'],
+                    'list_order' => $listOrder
+                ];
+                $pid = $val['id'];
+            }else{
+                $saveAll[] = [
+                    'parentid' => $parentId,
+                    'status' => $val['status'],
+                    'type' => $val['type'],
+                    'icon' => $val['icon'],
+                    'name' => $val['name'],
+                    'text' => $val['text'],
+                    'list_order' => $listOrder
+                ];
+                $pid = $parentId;
+            }
+        }
+        return $pid;
     }
 }
