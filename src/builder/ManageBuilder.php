@@ -45,7 +45,8 @@ class ManageBuilder extends IBuilder
                 $this->config['view_assets'] . "/js/icesui/core.js",
                 $this->config['view_assets'] . "/js/icesui/site-configs.js",
                 $this->config['view_assets'] . "/js/icesui/components.js",
-                $this->config['view_assets'] . "/vendor/layer/layer.js"
+                $this->config['view_assets'] . "/vendor/layer/layer.js",
+                $this->config['view_assets'] . "/vendor/screenfull/screenfull.min.js"
             ], 'prescript')
             ->render("manage/index");
     }
