@@ -19,6 +19,7 @@ return [
             'get' => "/icesui/login",
             'post' => "/icesui/doLogin",
             'out' => "/icesui/logout",
+            'theme' => "/icesui/theme",
             'title' => 'icesui后台框架 for tp5.1',
             'span' => 'made by Yirius',
             'afterLogin' => function($userinfo, $status){
